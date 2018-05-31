@@ -22,4 +22,5 @@ yarn-error.log*
 *.sw*
 
 
+# For local development
 .jshintrc

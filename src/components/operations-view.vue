@@ -76,6 +76,9 @@ export default {
   components: {
     operationItemView,
     icdGroupsView
+  },
+  created: function() {
+    this.$store.dispatch('fetchOperations')
   }
 }
 </script>

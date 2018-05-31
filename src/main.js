@@ -158,7 +158,6 @@ const router = new Router({
         if (!store.state.isAuthenticated) {
           return next('/login')
         }
-        store.dispatch('fetchOperations')
         next()
       },
       children: [
