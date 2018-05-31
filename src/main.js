@@ -97,7 +97,7 @@ const store = new Vuex.Store({
   },
   actions: {
     fetchUser: function(context) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         axios.get('/api/v1/user')
         .then((res) => {
           context.state.username = res.data.username
