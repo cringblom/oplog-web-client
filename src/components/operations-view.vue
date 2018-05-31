@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import _ from 'lodash'
 import operationItemView from './operation-item-view.vue'
 import icdGroupsView from './icd-groups-view.vue'
