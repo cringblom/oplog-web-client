@@ -6,10 +6,9 @@ export default {
   filterIcdCodes: function(searchString) {
     searchString = searchString.toLowerCase()
     var filteredIcdCodes = _.filter(icdCodes, function(icdCode) {
-      if (icdCode.icd.toLowerCase().includes(searchString)) {
-        return true
-      }
-      if (icdCode.name.toLowerCase().includes(searchString)) {
+      var longString = icdCode.icd + ' ' + icdCode.name
+      var stringToMatch = longString.toLowerCase()
+      if (stringToMatch.includes(searchString)) {
         return true
       }
       return false

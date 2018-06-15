@@ -1,29 +1,22 @@
-<template lang="html">
-  <div class="main">
-    <div class="left-section">
-      <div class="left-section-row1">
-        <router-link tag="span" class="icd-title" :to="'/operations/'+operation.icd">
-          {{operation.icd}}
-        </router-link>
-        <span class="date">
-          {{date}}
-        </span>
-        <el-tag class="el-tag" :type="tagType" size="mini">{{opAss}}</el-tag>
-      </div>
-      <div class="icd-description">
-        {{name}}
-      </div>
-    </div>
-    <div class="right-section">
-      <el-button @click="deleteButtonClicked" icon="el-icon-delete" size="mini"/>
-    </div>
-  </div>
+<template lang="pug">
+  div.main
+    div.left-section
+      div.left-section-row1
+        span.icd-title(@click="$router.push('/operations/'+operation.icd)") {{operation.icd}}
+        span.date {{date}}
+        span.oplog-label(:class='labelClass') {{opAss}}
+      div.icd-description {{name}}
+    div.right-section
+      button.oplog-button.oplog-button-default
+        font-awesome-icon(:icon='trashIcon' @click="deleteButtonClicked")
 </template>
 
 <script>
 import IcdLibrary from '../assets/IcdLibrary.js'
 import moment from 'moment'
 import axios from 'axios'
+import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import trashIcon from '@fortawesome/fontawesome-free-solid/faTrashAlt'
 export default {
   props: {
     operation: {
@@ -38,18 +31,21 @@ export default {
     date: function() {
       return moment(this.operation.date).format('YYYY-MM-DD')
     },
-    tagType: function() {
+    labelClass: function() {
       if (this.operation.mainOperator) {
-        return 'success'
+        return 'op'
       }
-      return 'warning'
+      return 'ass'
     },
     opAss: function() {
       if (this.operation.mainOperator) {
         return 'Op'
       }
       return 'Ass'
-    }
+    },
+    trashIcon: function() {
+      return trashIcon
+    },
   },
   methods: {
     deleteButtonClicked() {
@@ -62,6 +58,9 @@ export default {
         console.log(err);
       })
     }
+  },
+  components: {
+    fontAwesomeIcon
   }
 }
 </script>
@@ -78,9 +77,6 @@ export default {
 .left-section-row1 {
   display: flex;
   align-items: baseline;
-}
-.el-tag {
-  align-self: center;
 }
 .right-section {
   display: flex;
@@ -101,6 +97,9 @@ export default {
   margin-right: 10px;
   font-weight: 300;
   color: gray
+}
+.oplog-label {
+  align-self: center
 }
 .icd-description {
   color: rgb(38, 38, 38)

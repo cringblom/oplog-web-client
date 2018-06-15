@@ -1,34 +1,43 @@
-<template lang="html">
-  <el-container style="height: 100%">
-    <el-header class="el-header">
-      <app-header-view/>
-    </el-header>
-      <router-view></router-view>
-    <add-operation-modal-view/>
-  </el-container>
+<template lang="pug">
+  div.container
+    div.header-container
+      app-header-view
+    router-view
+    add-operation-modal-view(v-if='$store.state.addOperationModalIsVisible')
+    remove-account-modal-view(v-if='$store.state.removeAccountModalIsVisible')
 </template>
 
 <script>
 import appHeaderView from './app-header-view.vue'
 import addOperationModalView from './add-operation-modal-view.vue'
+import removeAccountModalView from './remove-account-modal-view.vue'
 export default {
   components: {
     appHeaderView,
-    addOperationModalView
+    addOperationModalView,
+    removeAccountModalView
   },
 }
 </script>
 
-<style scoped lang="css">
-  .el-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    justify-content: space-between;
-    background-color: white;
-    border-top: 3px solid rgb(102, 164, 72);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-  }
+<style scoped lang="scss">
+@import '../style-variables';
+.container {
+  height: 100%;
+  display: flex;
+}
+.header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  justify-content: space-between;
+  background-color: white;
+  border-top: 3px solid $oplog-green;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
 </style>

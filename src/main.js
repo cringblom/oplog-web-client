@@ -2,15 +2,18 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Router from 'vue-router'
 
-import ElementUI from 'element-ui'
-import locale from 'element-ui/lib/locale/lang/sv-SE'
-import 'element-ui/lib/theme-chalk/index.css'
+import './styles.scss'
 
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
 Vue.use(Router)
-Vue.use(ElementUI, {locale})
+
+import VTooltip from 'v-tooltip'
+Vue.use(VTooltip)
+
+import Notifications from 'vue-notification'
+Vue.use(Notifications)
 
 import App from './App.vue'
 
@@ -25,6 +28,7 @@ const store = new Vuex.Store({
     username: '',
     isAuthenticated: !!Cookies.get('oplog.sid'),
     addOperationModalIsVisible: false,
+    removeAccountModalIsVisible: false,
     loadingOperations: false
   },
   mutations: {
@@ -58,6 +62,16 @@ const store = new Vuex.Store({
         state.addOperationModalIsVisible = false
       }
     },
+    showRemoveAccountModal: function(state) {
+      if (!state.removeAccountModalIsVisible) {
+        state.removeAccountModalIsVisible = true
+      }
+    },
+    hideRemoveAccountModal: function(state) {
+      if (state.removeAccountModalIsVisible) {
+        state.removeAccountModalIsVisible = false
+      }
+    },
     setAuthenticationState: function(state, newAuthenticationState) {
       if (state.isAuthenticated != newAuthenticationState) {
         state.isAuthenticated = newAuthenticationState
@@ -86,7 +100,9 @@ const store = new Vuex.Store({
           }
         }
       })
-      return _.orderBy(icdGroups, 'count', 'desc')
+      return _.orderBy(icdGroups, function(icdGroup) {
+        return icdGroup.count.op + icdGroup.count.ass
+      }, 'desc')
     },
     operationsCount: function(state) {
       return {
@@ -138,17 +154,41 @@ const store = new Vuex.Store({
     }
   }
 })
+
 //ROUTER -----------------------------------------------------------------------
 import loginView from "./components/login-view.vue"
+import registerView from './components/register-view.vue'
+import verfiyAccountView from './components/verify-account-view.vue'
 import appView from "./components/app-view.vue"
 import operationsView from './components/operations-view.vue'
 import userView from './components/user-view.vue'
+import userAgreementView from './components/user-agreement-view.vue'
 const router = new Router({
   routes: [
     {
       path: "/login",
       name: "login-route",
       component: loginView
+    },
+    {
+      path: '/register',
+      name: 'register-route',
+      component: registerView
+    },
+    {
+      path: '/verify/:token',
+      name: 'verify-route',
+      component: verfiyAccountView
+    },
+    {
+      path: '/forgot',
+      name: 'forgot-password-route',
+      component: registerView
+    },
+    {
+      path: '/user-agreement',
+      name: 'user-agreement-route',
+      component: userAgreementView
     },
     {
       path: "/",

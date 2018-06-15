@@ -1,17 +1,11 @@
-<template lang="html">
+<template lang="pug">
   <router-link :to="'/operations/' + icdGroup.icd" tag="div" class="main" active-class="selected">
     <div class="left-section">
-      <div class="icd-title">
-        {{icdGroup.icd}}
-      </div>
-      <div class="icd-description">
-        {{icdGroup.name}}
-      </div>
+      div.icd-title {{icdGroup.icd}}
+      div.icd-description {{icdGroup.name}}
     </div>
     <div class="right-section">
-      <el-tag type="info" size="mini">
-        {{icdGroup.count.op + icdGroup.count.ass}}
-      </el-tag>
+      span.oplog-label.default {{icdGroup.count.op + icdGroup.count.ass}}
     </div>
   </router-link>
 </template>
@@ -27,7 +21,8 @@ export default {
 }
 </script>
 
-<style scoped lang="css">
+<style scoped lang="scss">
+@import '../style-variables';
 .main {
   display: flex;
   justify-content: space-between;
@@ -49,7 +44,7 @@ export default {
 .selected {
   background-color: rgba(0, 0, 0, 0.10);
   background-clip: padding-box;
-  border-left: 4px solid rgb(102, 164, 72);
+  border-left: 4px solid $oplog-green;
   padding-left: 16px;
 }
 .icd-title {

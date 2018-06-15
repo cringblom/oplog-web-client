@@ -1,39 +1,19 @@
-<template lang="html">
-  <el-container v-if="$store.state.loadingOperations" class="el-container loading-operations">
-    Laddar operationer...
-  </el-container>
-  <el-container v-else-if="operations.length > 0" class="el-container">
-    <el-aside width="300px" class="el-aside">
-      <div class="left-section">
-        <icd-groups-view/>
-      </div>
-    </el-aside>
-    <el-main class="el-main">
-      <div class="right-section">
-        <span class="icd-title">{{title}}</span>
-        <el-tooltip content="Ass" placement="top">
-          <span class="icd-title-count ass">{{count.ass}}</span>
-        </el-tooltip>
-        <el-tooltip content="Op" placement="top">
-          <span class="icd-title-count op">{{count.op}}</span>
-        </el-tooltip>
-        <el-tooltip content="Total" placement="top">
-          <span class="icd-title-count">{{count.ass + count.op}}</span>
-        </el-tooltip>
-      </div>
-      <div class="operations-list">
-        <operationItemView class="operation-item-view" v-for="operation in operations" :operation="operation" :key="operation._id"/>
-      </div>
-    </el-main>
-  </el-container>
-  <el-container v-else class="el-container no-operations">
-    <div class="sad-face">
-      :(
-    </div>
-    <div>
-      Inga operationer
-    </div>
-  </el-container>
+<template lang="pug">
+  div.operations-view-container.loading-operations(v-if="$store.state.loadingOperations") Laddar operationer...
+  div.operations-view-container(v-else-if="operations.length > 0")
+    div.operations-view-left-section
+      icd-groups-view
+    div.operations-view-right-section
+      div.operations-view-right-section-title
+        span.icd-title {{title}}
+        span.icd-title-count.ass(v-tooltip="'Ass'") {{count.ass}}
+        span.icd-title-count.op(v-tooltip="'Op'") {{count.op}}
+        span.icd-title-count(v-tooltip="'Total'") {{count.ass + count.op}}
+      div.operations-list
+        operation-item-view.operation-item-view(v-for="operation in operations" :operation="operation" :key="operation._id")
+  div.operations-view-container.no-operations(v-else)
+    div.sad-face :(
+    div Inga operationer
 </template>
 
 <script>
@@ -82,27 +62,41 @@ export default {
 }
 </script>
 
-<style scoped>
-.el-container {
-  margin-top: 60px;
+<style scoped lang="scss">
+@import '../style-variables';
+.operations-view-container {
+  display: flex;
+  width: 100%;
+  margin-top: 64px;
+  overflow: hidden;
 }
-.el-container.no-operations, .el-container.loading-operations {
+.operations-view-container.no-operations, .operations-view-container.loading-operations {
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: rgba(3, 3, 3, 0.4);
   font-size: 1.5rem
 }
-.el-main {
-  padding-top: 0;
-}
-.el-aside {
+.operations-view-left-section {
   border-right: 1px solid rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+  width: 300px;
+  height: 100%;
+  overflow-y: scroll;
+  @media screen and (max-width: $oplog-width-breakpoint) {
+    display: none;
+  }
 }
-.right-section {
-  padding-top: 20px;
+.operations-view-right-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px;
+  box-sizing: border-box;
 }
-
 .icd-title {
   font-size: 2.1rem;
   font-weight: 400;

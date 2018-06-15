@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
 import icdGroupItemView from './icd-group-item-view.vue'
 export default {
   components: {
@@ -16,17 +15,6 @@ export default {
   },
   computed: {
     icdGroups: function() {
-      /*
-      var count = _.countBy(this.$store.state.operations, 'icd')
-      var icdGroups = _.map(count, function(value, key) {
-        return {
-          icd: key,
-          name: IcdLibrary.nameForIcd(key),
-          count: value
-        }
-      })
-      return _.orderBy(icdGroups, 'count', 'desc')
-      */
       return this.$store.getters.icdGroups
     }
   }
