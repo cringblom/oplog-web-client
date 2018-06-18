@@ -1,5 +1,6 @@
 <template lang="pug">
   div.container
+    notifications(position='top center' group='app-notifications' classes='oplog-notification' width='300px')
     div.header-container
       app-header-view
     router-view

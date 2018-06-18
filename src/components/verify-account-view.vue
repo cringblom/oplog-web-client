@@ -1,15 +1,21 @@
 <template lang="pug">
-  div.container
-    div.left-box
-      div.title(v-if='isNewUser') Snart klar!
-      div.title(v-if='!isNewUser') Återställ lösenord
-      div.subtitle Ange ett lösenord och bekräfta.
-    form.right-box(@submit.prevent="verify")
-      el-input.email-input(v-model='email' disabled type='email')
-      el-input(placeholder='Lösenord' v-model='password' type='password')
-      el-input(placeholder='Upprepa lösenordet' v-model='passwordRepeat' type='password')
-      el-button(@click='verify' :disabled='isLoading') {{registerButtonText}}
-      input(type='submit' hidden)
+div.oplog-login-container
+  notifications(position='top center' group='verify-notifications' classes='oplog-notification' width='300px')
+  div.oplog-login-content
+    div.oplog-login-left-section
+      div.oplog-login-left-section-content
+        div.title(v-if='isNewUser') Snart klar!
+        div.title(v-if='!isNewUser') Återställ lösenord
+        div.subtitle Ange ett lösenord och bekräfta.
+    div.oplog-login-right-section(v-if='!error')
+      div.oplog-login-right-section-title Ange lösenord
+      form.oplog-login-right-section-content(@submit.prevent="verify")
+        input.oplog-input(v-model='email' disabled type='email')
+        input.oplog-input(placeholder='Lösenord' v-model='password' type='password')
+        input.oplog-input(placeholder='Upprepa lösenordet' v-model='passwordRepeat' type='password')
+        button.oplog-button.oplog-button-default(:disabled='isLoading') {{verifyButtonText}}
+    div.oplog-login-right-section(v-if='error')
+      div.oplog-login-right-section-content.error {{errorMessage}}
 </template>
 
 <script>
@@ -21,14 +27,16 @@ export default {
       passwordRepeat: '',
       email: '',
       isNewUser: false,
-      isLoading: false
+      isLoading: false,
+      error: false,
+      errorMessage: ''
     }
   },
   created() {
     this.fetchUsername()
   },
   computed: {
-    registerButtonText: function() {
+    verifyButtonText: function() {
       if (this.isNewUser) {
         if (this.isLoading) {
           return 'Skapar konto...'
@@ -50,22 +58,26 @@ export default {
         this.isNewUser = res.data.isNewUser
       })
       .catch((err) => {
+        if (err.response.data.errorCode === 'InvalidRegistrationToken') {
+          this.error = true
+          this.errorMessage = 'Ett fel uppstod. Registreringensnummret verkar inte vara giltigt. Detta kan bero på att det gått för lång tid sedan du registrerade dig. Försök därför att registrera dig igen.'
+        }
         console.log(err);
       })
     },
     verify: function() {
       if (this.password != this.passwordRepeat) {
-        return this.$message({
-          message: 'Lösenorden måste stämma överens, försök igen...',
-          type: 'error',
-          showClose: true
+        return this.$notify({
+          group: 'verify-notifications',
+          text: 'Lösenorden måste stämma överens, försök igen...',
+          type: 'error'
         })
       }
       if (!this.password || this.password.length < 6 || this.password.length > 20) {
-        return this.$message({
-          message: 'Lösenordet måste vara mellan 6-20 tecken, försök igen...',
-          type: 'error',
-          showClose: true
+        return this.$notify({
+          group: 'verify-notifications',
+          text: 'Lösenordet måste vara mellan 6-20 tecken, försök igen...',
+          type: 'error'
         })
       }
       this.isLoading = true
@@ -92,40 +104,19 @@ export default {
 
 <style scoped lang="scss">
 @import '../style-variables';
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: $oplog-green;
-  color: white
+.title {
+  font-size: 2.2rem;
+  font-weight: 500;
+  margin-bottom: 10px;
 }
-.left-box {
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  width: 400px;
-  .title {
-    font-size: 2.2rem;
-    font-weight: 500;
-    margin-bottom: 10px;
-  }
-  .subtitle {
-    font-size: 1rem;
-    margin-bottom: 10px;
-  }
-  .user-agreement-link {
-    cursor: pointer;
-    text-decoration:underline;
-  }
+.subtitle {
+  font-size: 1rem;
+  margin-bottom: 10px;
 }
-.right-box {
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-  padding: 15px;
-  > * {
-    margin-bottom: 15px;
-  }
+.oplog-login-right-section-content > input {
+  margin-bottom: 10px;
+}
+.error {
+  color: rgb(136, 136, 136);
 }
 </style>

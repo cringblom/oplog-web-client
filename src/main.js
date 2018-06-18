@@ -79,6 +79,8 @@ const store = new Vuex.Store({
           Cookies.remove('oplog.sid')
           state.username = ''
           state.operations = []
+          state.addOperationModalIsVisible = false
+          state.removeAccountModalIsVisible = false
         }
       }
     },
