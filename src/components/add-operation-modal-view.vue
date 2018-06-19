@@ -1,15 +1,15 @@
 <template lang="pug">
   transition(name='modal')
-    div.modal-mask(@click.self='close')
+    div.modal-mask(@mousedown.self='close')
       div.modal-container.modal-container-green
         div.modal-header Lägg till operation
         form.add-operation-modal-form(@submit.prevent='submit')
-          div(style='width: 100%; height: 50px;')
-            input.oplog-input.add-operation-modal-input-operation(v-model='icdInput' ref='icdInput' placeholder='Sök operation' @focus='icdDropdownIsVisible = true' @blur='icdDropdownIsVisible = false')
-            div.dropdown(v-if='icdDropdownIsVisible')
-              div.dropdown-no-items(v-if='filteredIcdCodes.length == 0') Hittade tyvärr inget :/
-              div.dropdown-item(v-for='icdCode in filteredIcdCodes' @mousedown='selectedIcd = icdCode') {{icdCode.icd}} {{icdCode.name}}
-          datepicker(v-model='date' monday-first=true input-class='oplog-input add-operation-modal-input-date')
+          input.add-operation-modal-input-operation(v-model='icdInput' ref='icdInput' placeholder='Sök operation' @focus='operationInputIsFocused = true' @blur='operationInputIsFocused = false')
+          div.icd-selector(:class='{show: operationInputIsFocused}')
+            div.icd-selector-content(v-if='icdInput.length < 2') Sök operation ovan
+            div.icd-selector-content(v-else-if='filteredIcdCodes.length == 0') Hittade tyvärr inget :/
+            div.icd-selector-item(v-else v-for='icdCode in filteredIcdCodes' @mousedown='selectedIcd = icdCode') {{icdCode.icd}} {{icdCode.name}}
+          datepicker(v-model='date' monday-first=true input-class='oplog-input' style='margin-bottom: 10px')
           label.opass-radio Operatör
             input(type='radio' name='opass' value='op' v-model='opAss')
             div.radio-indicator
@@ -27,12 +27,12 @@ import IcdLibrary from '../assets/IcdLibrary.js'
 import datepicker from 'vuejs-datepicker';
 import moment from 'moment'
 import axios from 'axios'
-import _ from 'lodash'
+//import _ from 'lodash'
 export default {
   data() {
     return {
       icdInput: '',
-      icdDropdownIsVisible: false,
+      operationInputIsFocused: false,
       selectedIcd: undefined,
       date: new Date,
       opAss: 'op',
@@ -64,12 +64,12 @@ export default {
   },
   computed: {
     filteredIcdCodes: function() {
-      if (this.icdInput.length < 3) {
+      if (this.icdInput.length < 2) {
         var topIcdCodes = this.$store.getters.icdGroups
         if (topIcdCodes.length > 0) {
-          var topSevenIcdCodes = _.take(topIcdCodes, 7)
-          return topSevenIcdCodes
+          return topIcdCodes
         }
+        return []
       }
       return IcdLibrary.filterIcdCodes(this.icdInput)
     },
@@ -106,7 +106,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import '../style-variables';
 
 .add-operation-modal-header {
@@ -117,36 +117,66 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.add-operation-modal-input-operation, .add-operation-modal-input-date{
+.add-operation-modal-input-date{
   margin-bottom: 10px;
 }
-.dropdown {
-  z-index: 1;
-  position: relative;
-  top: 0;
-  left: 0;
-  background: white;
-  border: 1px solid $oplog-light-gray;
-  border-radius: 4px;
+.add-operation-modal-input-operation {
+  height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: $oplog-input-text-color;
+  font-weight: 500;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
-  width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  outline: none;
+  -webkit-appearance: none;
+  font-size: 1rem;
+  border: 1px solid $oplog-input-border-color;
+  border-radius: 0;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  &:hover {
+    border-color: $oplog-input-border-color-hover;
+  }
+  &:focus {
+    border-color: $oplog-input-border-color-focus;
+  }
+}
+.icd-selector {
   display: flex;
   flex-direction: column;
-  > .dropdown-item {
+  box-sizing: border-box;
+  border-top: none;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  margin-bottom: 10px;
+  height: 0;
+  overflow: scroll;
+  -webkit-transition: height 0.2s;
+  transition: height 0.2s;
+  > .icd-selector-item {
     cursor: pointer;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
+    border-bottom: 1px solid $oplog-border-light;
   }
-  > .dropdown-item:hover {
-    background: $oplog-light-gray;
+  > .icd-selector-item:hover {
+    background: $oplog-light-light-gray;
   }
-  > .dropdown-no-items {
+  .icd-selector-content {
     color: $oplog-gray;
+    width:auto;
     align-self: center;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  &.show {
+    height: 200px;
+    border: 1px solid $oplog-border-light;
+    border-top: none;
   }
 }
 .opass-radio {
