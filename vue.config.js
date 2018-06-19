@@ -1,3 +1,4 @@
+/*eslint-env node*/
 module.exports = {
   devServer: {
     port: 4000,
