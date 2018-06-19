@@ -13,11 +13,11 @@ export default {
       }
       return false
     })
-    var firstTenResults = _.take(filteredIcdCodes, 7)
-    _.forEach(firstTenResults, function(icdCode) {
+    //var firstTenResults = _.take(filteredIcdCodes, 7)
+    _.forEach(filteredIcdCodes, function(icdCode) {
       icdCode.value = icdCode.icd + ' ' + icdCode.name
     })
-    return firstTenResults
+    return filteredIcdCodes
   },
   nameForIcd(anIcd) {
     var icd = anIcd.toUpperCase()
