@@ -6,8 +6,6 @@
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy-beta": "surge --domain https://beta.oplog.se --project ./dist",
-    "deploy-dev": "vue-cli-service build && surge --domain https://dev.oplog.se --project ./dist"
   },
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.8",
