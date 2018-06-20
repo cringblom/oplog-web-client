@@ -57,7 +57,7 @@ export default {
     icdGroupsView
   },
   created: function() {
-    this.$store.dispatch('fetchOperations')
+    //this.$store.dispatch('fetchOperations')
   }
 }
 </script>

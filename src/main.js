@@ -18,15 +18,14 @@ Vue.use(Notifications)
 import App from './App.vue'
 
 //VUEX -------------------------------------------------------------------------
+import axios from 'axios'
 import _ from 'lodash'
 import IcdLibrary from './assets/IcdLibrary.js'
-import axios from 'axios'
-import Cookies from 'js-cookie'
 const store = new Vuex.Store({
   state: {
     operations: [],
     username: '',
-    isAuthenticated: !!Cookies.get('oplog.sid'),
+    isAuthenticated: false,
     addOperationModalIsVisible: false,
     removeAccountModalIsVisible: false,
     loadingOperations: false
@@ -76,7 +75,6 @@ const store = new Vuex.Store({
       if (state.isAuthenticated != newAuthenticationState) {
         state.isAuthenticated = newAuthenticationState
         if (state.isAuthenticated === false) {
-          Cookies.remove('oplog.sid')
           state.username = ''
           state.operations = []
           state.addOperationModalIsVisible = false
@@ -145,6 +143,24 @@ const store = new Vuex.Store({
         }
       })
     },
+    getAuthenticatedState: function(context) {
+      return new Promise((resolve, reject) => {
+        axios.get('/api/v1/authenticated-state')
+        .then(() => {
+          context.commit('setAuthenticationState', true)
+          resolve()
+        })
+        .catch((err) => {
+          if (err.response) {
+            if (err.response.status === 401) {
+              context.commit('setAuthenticationState', false)
+              return resolve()
+            }
+          }
+          return reject(err)
+        })
+      })
+    },
     logout: function(context) {
       axios.post('/api/v1/logout')
       .then(() => {
@@ -196,11 +212,22 @@ const router = new Router({
       path: "/",
       name: "authenticated-route",
       component: appView,
+      redirect: {name: 'operations'},
       beforeEnter: function(to, from, next) {
         if (!store.state.isAuthenticated) {
-          return next('/login')
+          store.dispatch('getAuthenticatedState')
+          .then(() => {
+            if (!store.state.isAuthenticated) {
+              return next('/login')
+            }
+            return next()
+          })
+          .catch((err) => {
+            console.log(err)
+            return next()
+          })
         }
-        next()
+        return next()
       },
       children: [
         {
