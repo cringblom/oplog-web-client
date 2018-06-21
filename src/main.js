@@ -167,6 +167,11 @@ const store = new Vuex.Store({
         context.commit('setAuthenticationState', false)
       })
       .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 401) {
+            context.commit('setAuthenticationState', false)
+          }
+        }
         console.log(err);
       })
     }
@@ -233,7 +238,11 @@ const router = new Router({
         {
           path: '/operations/:icd*',
           component: operationsView,
-          name: 'operations'
+          name: 'operations',
+          beforeEnter: function(to, from, next) {
+            store.dispatch('fetchOperations')
+            next()
+          }
         },
         {
           path: '/user',
