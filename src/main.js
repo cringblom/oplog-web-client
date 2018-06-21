@@ -231,6 +231,8 @@ const router = new Router({
             console.log(err)
             return next()
           })
+        } else {
+          next()
         }
       },
       children: [
