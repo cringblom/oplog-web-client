@@ -56,8 +56,8 @@ export default {
     operationItemView,
     icdGroupsView
   },
-  created: function() {
-    //this.$store.dispatch('fetchOperations')
+  created() {
+    this.$store.dispatch('fetchOperations')
   }
 }
 </script>

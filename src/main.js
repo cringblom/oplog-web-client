@@ -232,18 +232,12 @@ const router = new Router({
             return next()
           })
         }
-        return next()
       },
       children: [
         {
           path: '/operations/:icd*',
           component: operationsView,
-          name: 'operations',
-          beforeEnter: function(to, from, next) {
-            if (store.state.isAuthenticated)
-            store.dispatch('fetchOperations')
-            next()
-          }
+          name: 'operations'
         },
         {
           path: '/user',
