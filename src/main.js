@@ -240,6 +240,7 @@ const router = new Router({
           component: operationsView,
           name: 'operations',
           beforeEnter: function(to, from, next) {
+            if (store.state.isAuthenticated)
             store.dispatch('fetchOperations')
             next()
           }
