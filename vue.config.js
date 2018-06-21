@@ -9,5 +9,13 @@ module.exports = {
         ws: true
       }
     }
-  }
+  },
+
+  baseUrl: undefined,
+  outputDir: '../oplog/public',
+  assetsDir: undefined,
+  runtimeCompiler: undefined,
+  productionSourceMap: undefined,
+  parallel: undefined,
+  css: undefined
 }
