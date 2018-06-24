@@ -9,6 +9,7 @@
         span.icd-title-count.ass(v-tooltip="'Ass'") {{count.ass}}
         span.icd-title-count.op(v-tooltip="'Op'") {{count.op}}
         span.icd-title-count(v-tooltip="'Total'") {{count.ass + count.op}}
+        span.icd-title-days-since-last-op {{daysSinceOp}}
       div.operations-list
         operation-item-view.operation-item-view(v-for="operation in operations" :operation="operation" :key="operation._id")
   div.operations-view-container.no-operations(v-else)
@@ -18,6 +19,7 @@
 
 <script>
 import _ from 'lodash'
+import moment from 'moment'
 import operationItemView from './operation-item-view.vue'
 import icdGroupsView from './icd-groups-view.vue'
 export default {
@@ -50,6 +52,19 @@ export default {
 
       }
       return this.$store.getters.operationsCount
+    },
+    daysSinceOp: function() {
+      const mostRecentOpDate = moment.utc(this.operations[0].date).startOf('day')
+      const nowDate = moment.utc().startOf('day')
+      const difference = nowDate.diff(mostRecentOpDate, 'days')
+      if (difference === 0) {
+        return 'Senast opererat idag'
+      }
+      if (difference === 1) {
+        return 'Senast opererat igår'
+      } else {
+        return 'Senast opererat för '+difference+' dagar sedan'
+      }
     }
   },
   components: {
@@ -91,11 +106,17 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  //height: 100%;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   padding: 20px;
   box-sizing: border-box;
+}
+.operations-view-right-section-title {
+  display: flex;
+  align-items: baseline;
+  flex-shrink: 0;
+  margin-bottom: 20px;
 }
 .icd-title {
   font-size: 2.1rem;
@@ -113,11 +134,14 @@ export default {
 .icd-title-count.op {
   color: rgb(102, 164, 72);
 }
+.icd-title-days-since-last-op {
+  color: rgb(84, 84, 84);
+  margin-left: auto;
+}
 .operations-list {
   border: 1px solid;
   border-radius: 5px;
   border-color: rgba(0,0,0,.125);
-  margin-top: 20px;
 }
 .operation-item-view {
   padding: 12px;

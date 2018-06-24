@@ -21,6 +21,9 @@ body {
     border-color: mix(white, $color, 0%);
     background: mix(white, $color, 90%);
   }
+  &:focus:enabled {
+    border-color: mix(white, $color, 0%);
+  }
   &:disabled {
     color: mix(white, $color, 50);
     cursor: not-allowed;

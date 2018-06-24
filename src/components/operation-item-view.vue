@@ -7,7 +7,7 @@
         span.oplog-label(:class='labelClass') {{opAss}}
       div.icd-description {{name}}
     div.right-section
-      button.oplog-button.oplog-button-default(@click="deleteButtonClicked")
+      button.oplog-button.oplog-button-default(@click="deleteButtonClicked" tabindex='-1')
         font-awesome-icon(:icon='trashIcon')
 </template>
 

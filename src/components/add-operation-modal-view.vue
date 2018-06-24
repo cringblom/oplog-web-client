@@ -3,31 +3,31 @@
     div.modal-mask(@mousedown.self='close')
       div.modal-container.modal-container-green
         div.modal-header Lägg till operation
-        form.add-operation-modal-form(@submit.prevent='submit')
-          input.add-operation-modal-input-operation(v-model='icdInput' ref='icdInput' placeholder='Sök operation' @focus='operationInputIsFocused = true' @blur='operationInputIsFocused = false')
+        form.add-operation-modal-form(@submit.prevent)
+          input.add-operation-modal-input-operation(v-model='icdInput' ref='icdInput' placeholder='Sök operation' @focus='operationInputIsFocused = true' @blur='operationInputIsFocused = false' @keyup.down.stop='icdSlectorDownKey' @keyup.up.stop='icdSlectorUpKey' @keyup.enter.stop='icdSelectorEnterKey')
           div.icd-selector(:class='{show: operationInputIsFocused}')
-            div.icd-selector-content(v-if='icdInput.length < 2') Sök operation ovan
+            div.icd-selector-content(v-if='filteredIcdCodes.length == 0 && icdInput.length == 0') Sök operation ovan
             div.icd-selector-content(v-else-if='filteredIcdCodes.length == 0') Hittade tyvärr inget :/
-            div.icd-selector-item(v-else v-for='icdCode in filteredIcdCodes' @mousedown='selectedIcd = icdCode') {{icdCode.icd}} {{icdCode.name}}
-          datepicker(v-model='date' monday-first=true input-class='oplog-input' style='margin-bottom: 10px')
+            div.icd-selector-item(v-else v-for='(icdCode, index) in filteredIcdCodes' :class='{"icd-selector-item-selected": index == icdSelectorSelectedIndex}' @mousedown='selectedIcd = icdCode' @mouseover='icdSelectorSelectedIndex = index') {{icdCode.icd}} {{icdCode.name}}
+          datepicker(v-model='date' monday-first=true input-class='oplog-input' style='margin-bottom: 10px' typeable format='yyyy-MM-dd' :language='sv')
           label.opass-radio Operatör
-            input(type='radio' name='opass' value='op' v-model='opAss')
+            input(type='radio' name='opass' value='op' v-model='opAss' tabindex='-1')
             div.radio-indicator
           label.opass-radio Assistent
-            input(type='radio' name='opass' value='ass' v-model='opAss')
+            input(type='radio' name='opass' value='ass' v-model='opAss' tabindex='-1')
             div.radio-indicator
           div.add-operation-modal-buttons
             button.oplog-button.oplog-button-default.close-button(type='button' @click='close') Avbryt
-            button.oplog-button.oplog-button-default.submit-button(:disabled='disabledSubmitButton') Lägg till
+            button.oplog-button.oplog-button-default.submit-button(type='button' @click='submit' :disabled='disabledSubmitButton' ref='addOperationButton') Lägg till
               span(style='font-weight: 500')  {{icdCode}}
 </template>
 
 <script>
 import IcdLibrary from '../assets/IcdLibrary.js'
 import datepicker from 'vuejs-datepicker';
+import {sv} from 'vuejs-datepicker/dist/locale'
 import moment from 'moment'
 import axios from 'axios'
-//import _ from 'lodash'
 export default {
   data() {
     return {
@@ -36,7 +36,9 @@ export default {
       selectedIcd: undefined,
       date: new Date,
       opAss: 'op',
-      isLoading: false
+      isLoading: false,
+      icdSelectorSelectedIndex: 0,
+      sv: sv
     }
   },
   methods: {
@@ -60,6 +62,20 @@ export default {
         console.log(err)
         console.log(err.response);
       })
+    },
+    icdSlectorDownKey: function() {
+      if (this.icdSelectorSelectedIndex < this.filteredIcdCodes.length-1) {
+        this.icdSelectorSelectedIndex++
+      }
+    },
+    icdSlectorUpKey: function() {
+      if (this.icdSelectorSelectedIndex > 0) {
+        this.icdSelectorSelectedIndex--
+      }
+    },
+    icdSelectorEnterKey: function() {
+      this.selectedIcd = this.filteredIcdCodes[this.icdSelectorSelectedIndex]
+      this.$refs.icdInput.blur()
     }
   },
   computed: {
@@ -97,7 +113,11 @@ export default {
     selectedIcd: function(newIcd, oldIcd) {
       if (newIcd != oldIcd) {
         this.icdInput = newIcd.icd + ' ' + newIcd.name
+
       }
+    },
+    icdInput: function() {
+      this.icdSelectorSelectedIndex = 0
     }
   },
   components: {
@@ -155,29 +175,32 @@ export default {
   overflow: scroll;
   -webkit-transition: height 0.2s;
   transition: height 0.2s;
-  > .icd-selector-item {
-    cursor: pointer;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-bottom: 1px solid $oplog-border-light;
-  }
-  > .icd-selector-item:hover {
-    background: $oplog-light-light-gray;
-  }
-  .icd-selector-content {
-    color: $oplog-gray;
-    width:auto;
-    align-self: center;
-    margin-top: auto;
-    margin-bottom: auto;
-  }
   &.show {
     height: 200px;
     border: 1px solid $oplog-border-light;
     border-top: none;
   }
+}
+.icd-selector-item {
+  cursor: pointer;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-bottom: 1px solid $oplog-border-light;
+  &:hover {
+    //background: $oplog-light-light-gray;
+  }
+  &.icd-selector-item-selected {
+    background: $oplog-light-light-gray;
+  }
+}
+.icd-selector-content {
+  color: $oplog-gray;
+  width:auto;
+  align-self: center;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .opass-radio {
   cursor: pointer;
