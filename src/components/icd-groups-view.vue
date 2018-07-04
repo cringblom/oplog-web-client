@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <router-link :to="'/operations'" tag="div" class="all-operations-link">
+    <router-link :to="'/operations'" tag="div" class="all-operations-link" @click.native='$store.commit("setLeftSectionVisibility", false)'>
       Alla operationer
     </router-link>
     <icd-group-item-view class="icd-group-item-view" v-for="icdGroup in icdGroups" :icdGroup="icdGroup" :key="icdGroup.icd"/>

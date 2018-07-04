@@ -1,8 +1,12 @@
 <template lang="pug">
 div.header-view-container
   div.header-view-left-section(@click='$router.push("/operations")')
+    button.oplog-button.oplog-button-default.toggle-left-section-button(v-if='$route.name==="operations"' @click.stop='$store.commit("toggleLeftSection")') {{toggleLeftSectionButtonText}}
     img.oplog-icon(src='../assets/scalpel-icon-white-greenbg.svg')
     div.oplog-brand OpLog
+    button.oplog-button.oplog-button-default(v-if='$route.name==="user"')
+      font-awesome-icon(:icon='chevronLeft')
+      span(style='margin-left:7px') Tillbaka
   div.header-view-right-section
     button.oplog-button.oplog-button-default.add-operation-button(v-if="addButtonIsVissible" @click="showAddOperationModal")
       font-awesome-icon.plus-icon(:icon='plusIcon')
@@ -21,6 +25,7 @@ div.header-view-container
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import userIcon from '@fortawesome/fontawesome-free-solid/faUser'
 import caretDownIcon from '@fortawesome/fontawesome-free-solid/faCaretDown'
+import chevronLeft from '@fortawesome/fontawesome-free-solid/faChevronLeft'
 import plusIcon from '@fortawesome/fontawesome-free-solid/faPlus'
 
 export default {
@@ -36,6 +41,15 @@ export default {
     },
     plusIcon: function() {
       return plusIcon
+    },
+    chevronLeft: function() {
+      return chevronLeft
+    },
+    toggleLeftSectionButtonText: function() {
+      if (this.$store.state.showLeftSection) {
+        return 'Visa operationer'
+      }
+      return 'Välj operation'
     }
   },
   methods: {
@@ -104,15 +118,24 @@ export default {
   justify-content: flex-start;
   align-items: center;
   cursor: pointer;
-  > .oplog-icon {
+  .toggle-left-section-button {
+    display: none;
+    @media screen and (max-width: $oplog-width-breakpoint) {
+      display: block;
+    }
+  }
+  .oplog-icon {
     width: 40px;
     margin-right: 10px;
-    //height: 50px;
+    @media screen and (max-width: $oplog-width-breakpoint) {
+      display: none;
+    }
   }
-  > .oplog-brand {
+  .oplog-brand {
     font-size: 1.5rem;
     font-weight: 500;
     color: $oplog-green;
+    margin-right: 10px;
     @media screen and (max-width: $oplog-width-breakpoint) {
       display: none;
     }

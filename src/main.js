@@ -28,7 +28,8 @@ const store = new Vuex.Store({
     isAuthenticated: false,
     addOperationModalIsVisible: false,
     removeAccountModalIsVisible: false,
-    loadingOperations: false
+    loadingOperations: false,
+    showLeftSection: false
   },
   mutations: {
     setOperations: function(state, newOperations) {
@@ -84,8 +85,13 @@ const store = new Vuex.Store({
     },
     setLoadingOperationsState: function(state, newLoadingOperationsState) {
       state.loadingOperations = newLoadingOperationsState
+    },
+    toggleLeftSection: function(state) {
+      state.showLeftSection = !state.showLeftSection
+    },
+    setLeftSectionVisibility: function(state, visible) {
+      state.showLeftSection = visible
     }
-
   },
   getters: {
     icdGroups: function(state) {

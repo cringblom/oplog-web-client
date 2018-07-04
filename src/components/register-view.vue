@@ -20,7 +20,7 @@
         div.oplog-login-right-section-title(v-if='$route.name == "forgot-password-route"') Återställ lösenord
         div.oplog-login-right-section-content
           input.oplog-input.email-input(placeholder='Din epostadress' v-model='email' type='email')
-          button.oplog-button.oplog-button-default(@click='register' :disabled='isLoading') {{registerButtonText}}
+          button.oplog-button.oplog-button-default.w-100(@click='register' :disabled='isLoading') {{registerButtonText}}
     div.oplog-login-footer
       div
         span © 2018 oplog.se

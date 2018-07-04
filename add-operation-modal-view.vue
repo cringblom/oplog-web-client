@@ -9,7 +9,7 @@
             div.icd-selector-content(v-if='filteredIcdCodes.length == 0 && icdInput.length == 0') Sök operation ovan
             div.icd-selector-content(v-else-if='filteredIcdCodes.length == 0') Hittade tyvärr inget :/
             div.icd-selector-item(v-else v-for='(icdCode, index) in filteredIcdCodes' :class='{"icd-selector-item-selected": index == icdSelectorSelectedIndex}' @mousedown='selectedIcd = icdCode' @mouseover='icdSelectorSelectedIndex = index') {{icdCode.icd}} {{icdCode.name}}
-          datepicker(v-model='date' monday-first=true input-class='oplog-input' style='margin-bottom: 10px' typeable format='yyyy-MM-dd' :language='sv')
+          datepicker(v-model='date' monday-first=true input-class='oplog-input' style='margin-bottom: 10px' format='yyyy-MM-dd' :language='sv')
           label.opass-radio Operatör
             input(type='radio' name='opass' value='op' v-model='opAss' tabindex='-1')
             div.radio-indicator
@@ -18,8 +18,9 @@
             div.radio-indicator
           div.add-operation-modal-buttons
             button.oplog-button.oplog-button-default.close-button(type='button' @click='close') Avbryt
-            button.oplog-button.oplog-button-default.submit-button(type='button' @click='submit' :disabled='disabledSubmitButton' ref='addOperationButton') Lägg till
-              span(style='font-weight: 500')  {{icdCode}}
+            button.oplog-button.oplog-button-default.submit-button(type='button' @click='submit' :disabled='disabledSubmitButton')
+              span Lägg    till
+              span(style='font-weight: 500') {{icdCode}}
 </template>
 
 <script>
@@ -144,6 +145,7 @@ export default {
   height: 40px;
   padding-left: 10px;
   padding-right: 10px;
+  margin: 0;
   color: $oplog-input-text-color;
   font-weight: 500;
   -webkit-box-sizing: border-box;
@@ -240,11 +242,7 @@ export default {
 .add-operation-modal-buttons {
   display: flex;
   justify-content: flex-end;
-  align-items: center;
   margin-top: 30px;
-  & > * {
-    width: auto;
-  }
 }
 .close-button {
   margin-right: 10px;

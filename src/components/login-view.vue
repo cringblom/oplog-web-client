@@ -12,9 +12,9 @@ div.oplog-login-container
       form.oplog-login-right-section-content(@submit.prevent="login")
         input.oplog-input(placeholder='Epost' v-model='email' type='email' style='margin-bottom: 10px;')
         input.oplog-input(placeholder='Lösenord' type='password' v-model='password' style='margin-bottom: 10px;')
-        button.oplog-button.oplog-button-default(:disabled="loginButtonDisabled") {{loginButtonText}}
+        button.oplog-button.oplog-button-default.w-100(:disabled="loginButtonDisabled") {{loginButtonText}}
         div.login-form-button-separator
-        button.oplog-button.oplog-button-sm.oplog-button-default(@click="$router.push('/register')" type='button') Skapa ett konto
+        button.oplog-button.oplog-button-sm.oplog-button-default.w-100(@click="$router.push('/register')" type='button') Skapa ett konto
   div.oplog-login-footer
     div
       span © 2018 oplog.se

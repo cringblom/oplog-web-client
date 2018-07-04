@@ -1,5 +1,5 @@
 <template lang="pug">
-  <router-link :to="'/operations/' + icdGroup.icd" tag="div" class="main" active-class="selected">
+  router-link(:to="'/operations/' + icdGroup.icd" tag="div" class="main" active-class="selected" @click.native='icdClick')
     <div class="left-section">
       div.icd-title {{icdGroup.icd}}
       div.icd-description {{icdGroup.name}}
@@ -7,7 +7,6 @@
     <div class="right-section">
       span.oplog-label.default {{icdGroup.count.op + icdGroup.count.ass}}
     </div>
-  </router-link>
 </template>
 
 <script>
@@ -16,6 +15,11 @@ export default {
     icdGroup: {
       type: Object,
       rquired: true
+    }
+  },
+  methods: {
+    icdClick: function() {
+      this.$store.commit('setLeftSectionVisibility', false)
     }
   }
 }

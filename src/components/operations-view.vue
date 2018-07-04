@@ -1,14 +1,15 @@
 <template lang="pug">
   div.operations-view-container.loading-operations(v-if="$store.state.loadingOperations") Laddar operationer...
   div.operations-view-container(v-else-if="operations.length > 0")
-    div.operations-view-left-section
+    div.operations-view-left-section(:class='{"show-left-section": $store.state.showLeftSection}')
       icd-groups-view
-    div.operations-view-right-section
+    div.operations-view-right-section(:class='{"show-left-section": $store.state.showLeftSection}')
       div.operations-view-right-section-title
         span.icd-title {{title}}
-        span.icd-title-count.ass(v-tooltip="'Ass'") {{count.ass}}
-        span.icd-title-count.op(v-tooltip="'Op'") {{count.op}}
-        span.icd-title-count(v-tooltip="'Total'") {{count.ass + count.op}}
+        div
+          span.icd-title-count.ass(v-tooltip="'Ass'") {{count.ass}}
+          span.icd-title-count.op(v-tooltip="'Op'") {{count.op}}
+          span.icd-title-count(v-tooltip="'Total'") {{count.ass + count.op}}
         span.icd-title-days-since-last-op {{daysSinceOp}}
       div.operations-list
         operation-item-view.operation-item-view(v-for="operation in operations" :operation="operation" :key="operation._id")
@@ -81,9 +82,9 @@ export default {
 @import '../style-variables';
 .operations-view-container {
   display: flex;
-  width: 100%;
+  flex-grow: 1;
   margin-top: 64px;
-  overflow: hidden;
+  overflow-y: hidden;
 }
 .operations-view-container.no-operations, .operations-view-container.loading-operations {
   flex-direction: column;
@@ -94,29 +95,43 @@ export default {
 }
 .operations-view-left-section {
   border-right: 1px solid rgba(0, 0, 0, 0.25);
-  flex-shrink: 0;
-  width: 300px;
-  height: 100%;
+  flex-basis: 300px;
   overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
   @media screen and (max-width: $oplog-width-breakpoint) {
-    display: none;
+    flex: 0;
+    border: none;
+    &.show-left-section {
+      flex: 1;
+    }
   }
 }
 .operations-view-right-section {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  //height: 100%;
+  flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  padding: 20px;
-  box-sizing: border-box;
+  &.show-left-section {
+    @media screen and (max-width: $oplog-width-breakpoint) {
+      flex: 0;
+    }
+  }
+  > * {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 }
 .operations-view-right-section-title {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   flex-shrink: 0;
   margin-bottom: 20px;
+  margin-top: 20px;
+  @media screen and (max-width: $oplog-width-breakpoint) {
+    flex-direction: column;
+  }
 }
 .icd-title {
   font-size: 2.1rem;

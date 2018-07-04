@@ -1,12 +1,11 @@
 @import './style-variables';
 
-html {
+html, body {
   height: 100%;
 }
 body {
   font-family: Helvetica Neue, Helvetica, sans-serif;
   color: $oplog-font-color;
-  height: 100%;
   margin: 0;
 }
 //BUTTONS-----------------------------------------------------------------------
@@ -30,7 +29,6 @@ body {
   }
 }
 .oplog-button {
-  width: 100%;
   height: 40px;
   padding-left: 10px;
   padding-right: 10px;
@@ -48,16 +46,19 @@ body {
   box-sizing: border-box;
   -webkit-appearance: none;
   -moz-appearance: none;
-}
-.oplog-button-sm {
-  height: 30px;
-  font-size: 0.8rem;
-}
-.oplog-button-default {
-  @include oplog-button-color-style($oplog-button-color-default)
-}
-.oplog-button-red {
-  @include oplog-button-color-style($oplog-button-red)
+  &.w-100 {
+    width: 100%;
+  }
+  &.oplog-button-sm {
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  &.oplog-button-default {
+    @include oplog-button-color-style($oplog-button-color-default)
+  }
+  &.oplog-button-red {
+    @include oplog-button-color-style($oplog-button-red)
+  }
 }
 //INPUTS------------------------------------------------------------------------
 .oplog-input {
@@ -217,17 +218,21 @@ $oplog-tooltip-color: rgba(0, 0, 0, 0.7);
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: rgba(0, 0, 0, .5);
-  //transition: opacity .3s ease;
+  overflow-y: scroll;
 }
 .modal-container {
-  width: 600px;
+  flex: 0 0 600px;
+  height: 400px;
+  margin: auto;
   padding: 20px;
   display: flex;
   flex-direction: column;
   background: white;
+  @media all and (max-width: $oplog-width-breakpoint) {
+    flex: 1;
+    height: 100%;
+  }
 }
 .modal-container-green {
   border-top: 3px solid $oplog-green;
@@ -236,8 +241,35 @@ $oplog-tooltip-color: rgba(0, 0, 0, 0.7);
   border-top: 3px solid $oplog-red;
 }
 .modal-header {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: space-between;
+  > * {
+    flex: 1;
+    display: flex;
+  }
+}
+.modal-title {
   font-size: 1.5rem;
-  margin-bottom: 30px;
+  margin: auto;
+  flex-shrink: 0;
+}
+.modal-close-button {
+  margin-right: 0;
+  margin-left: auto;
+  align-self: flex-start;
+  color: $oplog-gray;
+  outline: none;
+  font-size: 2rem;
+  border: none;
+  //line-height: 50%;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  &:hover {
+    color: black;
+  }
 }
 //MESSAGE-----------------------------------------------------------------------
 .oplog-notification {
@@ -256,17 +288,15 @@ $oplog-tooltip-color: rgba(0, 0, 0, 0.7);
 }
 //LOGIN-------------------------------------------------------------------------
 .oplog-login-container {
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
 }
 .oplog-login-content {
   display: flex;
   flex-direction: row;
-  align-items: stretch;
-  height: 100%;
-  width: 100%;
+  flex-grow: 1;
   @media all and (max-width: $oplog-width-breakpoint) {
     flex-direction: column-reverse;
   }
@@ -279,8 +309,7 @@ $oplog-tooltip-color: rgba(0, 0, 0, 0.7);
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 10px;
   background-color: $oplog-green;
   color: white;
   .oplog-login-left-section-content {
@@ -295,6 +324,7 @@ $oplog-tooltip-color: rgba(0, 0, 0, 0.7);
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 10px;
   .oplog-login-right-section-title {
     font-size: 2rem;
     margin-bottom: 20px;
@@ -303,6 +333,9 @@ $oplog-tooltip-color: rgba(0, 0, 0, 0.7);
     display: flex;
     flex-direction: column;
     align-items: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     padding: 10px;
     width: 100%;
     max-width: 400px;
@@ -315,11 +348,9 @@ $oplog-tooltip-color: rgba(0, 0, 0, 0.7);
   box-sizing: border-box;
   padding-left: 20px;
   padding-right: 20px;
-  width: 100%;
-  height: 50px;
+  flex-basis: 50px;
   color: rgba(0, 0, 0, 0.5);
   border-top: 1px solid rgba(0, 0, 0, 0.25);
-  margin-top: auto;
   .oplog-login-footer-link {
     cursor: pointer;
     &:hover {

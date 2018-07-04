@@ -10,7 +10,7 @@
 
 <script>
 import appHeaderView from './app-header-view.vue'
-import addOperationModalView from './add-operation-modal-view.vue'
+import addOperationModalView from './add-operation-modal-view-v2.vue'
 import removeAccountModalView from './remove-account-modal-view.vue'
 export default {
   components: {
@@ -41,4 +41,6 @@ export default {
   border-top: 3px solid $oplog-green;
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
+</style>
+<style lang="scss">
 </style>
