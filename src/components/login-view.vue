@@ -21,7 +21,7 @@ div.oplog-login-container
     div
       span.oplog-login-footer-link(@click="$router.push('/forgot')") Glömt lösenord?
       span.footer-separator |
-      span.oplog-login-footer-link Om
+      span.oplog-login-footer-link(@click="$router.push('/about')") Om
 </template>
 
 <script>

@@ -187,6 +187,7 @@ const store = new Vuex.Store({
 //ROUTER -----------------------------------------------------------------------
 import loginView from "./components/login-view.vue"
 import registerView from './components/register-view.vue'
+import aboutView from './components/about-view.vue'
 import verfiyAccountView from './components/verify-account-view.vue'
 import appView from "./components/app-view.vue"
 import operationsView from './components/operations-view.vue'
@@ -218,6 +219,11 @@ const router = new Router({
       path: '/user-agreement',
       name: 'user-agreement-route',
       component: userAgreementView
+    },
+    {
+      path: '/about',
+      name: 'about-route',
+      component: aboutView
     },
     {
       path: "/",

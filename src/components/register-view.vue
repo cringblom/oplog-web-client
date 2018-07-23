@@ -4,7 +4,7 @@
     div.oplog-login-content
       div.oplog-login-left-section
         div.oplog-login-left-section-content(v-if='$route.name == "register-route"')
-          div.title Att skapa ett konto går snabbare än bytestiderna på op!
+          div.title Att skapa ett konto är enkelt!
           div.subtitle Du behöver bara ange din epostadress. Ett mail kommer sedan att skickas till dig med en länk för att starta kontot.
           div.subtitle Ett tips är att använda en personlig epostadress om du någon gång skulle byta arbetsgivare.
           div.subtitle
