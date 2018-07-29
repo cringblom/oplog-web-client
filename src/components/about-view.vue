@@ -4,15 +4,16 @@ div.about-content
       div.about-title.green Om oplog.se
   div.block.intro-block.green-bg
     .block-content
-      div.intro-block-title.white oplog.se är en operationslogg för alla opererande läkare
-  div.block.padding-tb
+      //div.intro-block-title.white oplog.se är en operationslogg för alla opererande läkare
+      div.intro-block-title.white En operationslogg i molnet. Just nu i beta. Mer info kommer inom kort.
+  //div.block.padding-tb
     .block-content
       div.block-section
         div.block-title För alla operatörer
         div.block-text oplog.se lämpar sig för alla opererande läkare. Varje ingrep registreras med en ICD-kod och samtliga av Socialstyrelsens KVÅ-koder finns att välja mellan. Detta gör att du kan använda oplog.se oavsett om du är kirurg, ortoped, eller annan opererande läkare.
       div.block-section
         div.block-text Vanliga metoder som att skapa exceldokument, skriva ut op-berätterlser eller rtg-bilder är svåra att underhålla och ger en relativt dålig överblick. Med oplog.se ser du snabbt hur många operationer du utfört av varje typ och hur länge sedan du gjorde de senast.
-  div.block.padding-tb
+  //div.block.padding-tb
     div.block-text oplog.se utvecklas och drivs ideelt och kostar därför ingenting att använda.
 </template>
 
