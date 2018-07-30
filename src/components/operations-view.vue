@@ -95,7 +95,7 @@ export default {
 }
 .operations-view-left-section {
   border-right: 1px solid rgba(0, 0, 0, 0.25);
-  flex-basis: 300px;
+  flex: 0 0 300px;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   @media screen and (max-width: $oplog-width-breakpoint) {

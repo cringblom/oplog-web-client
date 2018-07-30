@@ -265,7 +265,7 @@ export default {
   margin-bottom: auto;
 }
 .date-picker-wrapper {
-  flex: 1;
+  flex: 1 0 auto;
 }
 .op-ass-selector {
   display: flex;

@@ -43,6 +43,7 @@ export default {
 }
 .left-section {
   display: flex;
+  flex: 0 1 100%;
   flex-direction: column;
 }
 .selected {
