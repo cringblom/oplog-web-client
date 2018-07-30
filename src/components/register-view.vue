@@ -110,6 +110,7 @@ export default {
   align-self: flex-start;
   font-size: 1rem;
   margin-bottom: 10px;
+  width: 100%;
 }
 .user-agreement-link {
   cursor: pointer;

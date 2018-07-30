@@ -5,10 +5,9 @@ div.oplog-login-container
     div.oplog-login-left-section
       div.oplog-login-left-section-content
         img.logo(src='../assets/scalpel-icon-white-nobg.svg')
-        div.title-text Välkommen till oplog.se BETA!
-        div.subtitle-text Din operationslogg i molnet
-        //div.subtitle-text För bösta upplevelse använd Google Chrome
-        //div.subtitle-text Oplog.se befinner sig i beta. Tjänsten är endast testad på Google Chrome och Safari men ännu inte på Internet explorer eller Edge. Uppdateringar är på gång och även så en app till iOS. I väntan använd Chrome!
+        div.title-text Välkommen till oplog.se!
+        div.subtitle-text Din operationslogg i molnet.
+
     div.oplog-login-right-section
       div.oplog-login-right-section-title Logga in
       form.oplog-login-right-section-content(@submit.prevent="login")
