@@ -1,58 +1,57 @@
 <template lang="pug">
-  transition(name='modal')
-    div.modal-mask(@mousedown.self='close')
-      div.modal-container.modal-container-green
-        div.modal-header
-          div
-            button.oplog-button.oplog-button-default(v-if='stepIndex > 0' @click='stepIndex--')
-              font-awesome-icon(:icon='chevronLeft' style='margin-right: 5px')
-              span Tillbaka
-          div
-            span.modal-title {{modalTitle}}
-          div
-            button.modal-close-button(@click='close') &times;
-        transition(name='fade' mode='out-in')
-          //Step 1: Operation
-          div.modal-content(v-if='stepIndex === 0' key='step0')
-            input.operation-input(
-              v-model='icdInput'
-              ref='icdInput'
-              placeholder='Sök operation'
-              @keyup.down.stop='icdSlectorDownKey'
-              @keyup.up.stop='icdSlectorUpKey'
-              @keyup.enter.stop='icdSelectorEnterKey')
-            div.icd-selector
-              div.icd-selector-content(v-if='filteredIcdCodes.length == 0 && icdInput.length == 0') Sök operation ovan
-              div.icd-selector-content(v-else-if='filteredIcdCodes.length == 0') Hittade tyvärr inget :/
-              div.icd-selector-item(
-                v-else
-                v-for='(icdCode, index) in filteredIcdCodes'
-                :class='{"icd-selector-item-selected": index == icdSelectorSelectedIndex}'
-                @click='selectedIcd = icdCode; stepIndex++  '
-                @mouseover='icdSelectorSelectedIndex = index') {{icdCode.icd}} {{icdCode.name}}
-            div.modal-info Sök och välj en operation ovan.
-          //Step 2: Date
-          div.modal-content(v-if='stepIndex === 1' key='step1')
-            div.date-picker-wrapper
-              date-picker(v-model='date'
-                @input='stepIndex++'
-                is-inline
-                is-expanded
-                :attributes='datePickerAttributes'
-                :max-date='new Date()'
-                :theme-styles='datePickerSyle')
-            div.modal-info Klicka på datumet operationen utfördes.
-          //Step 3: Op/Ass
-          div.modal-content(v-if='stepIndex === 2' key='step2')
-            div.op-ass-selector
-              button.op-ass-button.op-ass-button-green(@click='mainOperator = true; submit()')
-                div.op-ass-button-icd {{selectedIcd.icd}}
-                div.op-ass-button-date {{formatedDate}}
-                div Operatör
-              button.op-ass-button.op-ass-button-yellow(@click='mainOperator = false; submit()')
-                div.op-ass-button-icd {{selectedIcd.icd}}
-                div.op-ass-button-date {{formatedDate}}
-                div Assistent
+  div.modal-mask(@mousedown.self='close')
+    div.modal-container.modal-container-green
+      div.modal-header
+        div
+          button.oplog-button.oplog-button-default(v-if='stepIndex > 0' @click='stepIndex--')
+            font-awesome-icon(:icon='chevronLeft' style='margin-right: 5px')
+            span Tillbaka
+        div
+          span.modal-title {{modalTitle}}
+        div
+          button.modal-close-button(@click='close') &times;
+      transition(name='fade' mode='out-in')
+        //Step 1: Operation
+        div.modal-content(v-if='stepIndex === 0' key='step0')
+          input.operation-input(
+            v-model='icdInput'
+            ref='icdInput'
+            placeholder='Sök operation'
+            @keyup.down.stop='icdSlectorDownKey'
+            @keyup.up.stop='icdSlectorUpKey'
+            @keyup.enter.stop='icdSelectorEnterKey')
+          div.icd-selector
+            div.icd-selector-content(v-if='filteredIcdCodes.length == 0 && icdInput.length == 0') Sök operation ovan
+            div.icd-selector-content(v-else-if='filteredIcdCodes.length == 0') Hittade tyvärr inget :/
+            div.icd-selector-item(
+              v-else
+              v-for='(icdCode, index) in filteredIcdCodes'
+              :class='{"icd-selector-item-selected": index == icdSelectorSelectedIndex}'
+              @click='selectedIcd = icdCode; stepIndex++  '
+              @mouseover='icdSelectorSelectedIndex = index') {{icdCode.icd}} {{icdCode.name}}
+          div.modal-info Sök och välj en operation ovan.
+        //Step 2: Date
+        div.modal-content(v-if='stepIndex === 1' key='step1')
+          div.date-picker-wrapper
+            date-picker(v-model='date'
+              @input='stepIndex++'
+              is-inline
+              is-expanded
+              :attributes='datePickerAttributes'
+              :max-date='new Date()'
+              :theme-styles='datePickerSyle')
+          div.modal-info Klicka på datumet operationen utfördes.
+        //Step 3: Op/Ass
+        div.modal-content(v-if='stepIndex === 2' key='step2')
+          div.op-ass-selector
+            button.op-ass-button.op-ass-button-green(@click='mainOperator = true; submit()')
+              div.op-ass-button-icd {{selectedIcd.icd}}
+              div.op-ass-button-date {{formatedDate}}
+              div Operatör
+            button.op-ass-button.op-ass-button-yellow(@click='mainOperator = false; submit()')
+              div.op-ass-button-icd {{selectedIcd.icd}}
+              div.op-ass-button-date {{formatedDate}}
+              div Assistent
 </template>
 
 <script>
@@ -187,6 +186,7 @@ export default {
 
 <style scoped lang="scss">
 @import '../style-variables';
+/*
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
@@ -196,7 +196,7 @@ export default {
 .fade-enter-active, .fade-leave-active {
   transition: all 0.1s ease;
 }
-
+*/
 .modal-content {
   display: flex;
   flex-direction: column;
