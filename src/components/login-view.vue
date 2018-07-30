@@ -102,6 +102,7 @@ export default {
 }
 .subtitle-text {
   font-size: 1.3rem;
+  width: 100%;
 }
 .login-form-button-separator {
   width: 50%;
