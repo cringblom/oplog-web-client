@@ -7,7 +7,7 @@ div.oplog-login-container
         img.logo(src='../assets/scalpel-icon-white-nobg.svg')
         div.title-text Välkommen till oplog.se!
         div.subtitle-text Din operationslogg i molnet.
-
+        div.subtitle-2-text För bästa användarupplevelse använd Google Chrome &copy;
     div.oplog-login-right-section
       div.oplog-login-right-section-title Logga in
       form.oplog-login-right-section-content(@submit.prevent="login")
@@ -104,6 +104,12 @@ export default {
   font-size: 1.3rem;
   width: 100%;
   text-align: center;
+}
+.subtitle-2-text {
+  width: 100%;
+  margin-top: 5px;
+  font-size: 0.9rem;
+  font-style: italic;
 }
 .login-form-button-separator {
   width: 50%;
