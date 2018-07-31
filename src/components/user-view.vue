@@ -5,6 +5,7 @@
       div.left-section
         span.username-label Inloggad som:
         span.username  {{username}}
+        span.loading-user(v-if='loadingUser') laddar...
       div.right-section
         button.oplog-button.oplog-button-default(@click='logout') Logga ut
     div.border-box
@@ -16,15 +17,28 @@
 
 <script>
 export default {
-  computed: {
-    username: function() {
-      return this.$store.state.username || 'Ej inloggad '
+  data: function() {
+    return {
+      loadingUser: false,
+      username: this.$store.state.username
     }
   },
   methods: {
     logout: function() {
       this.$store.dispatch('logout')
     }
+  },
+  created: function() {
+    this.loadingUser = true
+    this.$store.dispatch('fetchUser')
+    .then(() => {
+      this.loadingUser = false
+      this.username = this.$store.state.username
+    })
+    .catch(() => {
+      this.loadingUser = false
+      this.username = undefined
+    })
   }
 }
 </script>
@@ -62,5 +76,8 @@ export default {
 }
 .username {
   font-weight: 500;
+}
+.loading-user {
+  color: $oplog-gray;
 }
 </style>

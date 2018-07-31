@@ -256,11 +256,7 @@ const router = new Router({
         {
           path: '/user',
           component: userView,
-          name: 'user',
-          beforeEnter: function(to, from, next) {
-            store.dispatch('fetchUser')
-            next()
-          }
+          name: 'user'
         }
       ]
     },
