@@ -62,10 +62,15 @@ export default {
         .catch((err) => {
           this.isLoggingIn = false
           var message
-          if (err.response.status === 401) {
-            message = 'Fel e-postadress eller lösenord'
-          } else {
-            message = 'Ett fel uppstod, försök igen'
+          if (err.response) {
+            if (err.response.status === 401) {
+              message = 'Fel e-postadress eller lösenord'
+            } else {
+              message = 'Ett fel uppstod, försök igen'
+            }
+          }
+          else if (err.request) {
+            message = 'Det verkar inte finnas någon internetanslutning...'
           }
           this.$notify({
             group: 'login-notifications',
