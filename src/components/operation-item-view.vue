@@ -50,7 +50,6 @@ export default {
     deleteButtonClicked() {
       this.$store.dispatch('removeOperation', this.operation._id)
       .then(() => {
-        console.log("HELLO");
         this.$notify({
           group: 'app-notifications',
           text: 'Operation borttagen',
