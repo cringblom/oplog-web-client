@@ -7,8 +7,9 @@
         span.oplog-label(:class='labelClass') {{opAss}}
       div.icd-description {{name}}
     div.right-section
-      button.oplog-button.oplog-button-default(@click="deleteButtonClicked" tabindex='-1')
-        font-awesome-icon(:icon='trashIcon')
+      button.oplog-button.oplog-button-default(@click="deleteButtonClicked" tabindex='-1' :disabled='isLoading')
+        span(v-if='isLoading') Tar bort...
+        font-awesome-icon(:icon='trashIcon' v-else)
 </template>
 
 <script>
@@ -17,6 +18,11 @@ import moment from 'moment'
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import trashIcon from '@fortawesome/fontawesome-free-solid/faTrashAlt'
 export default {
+  data() {
+    return {
+      isLoading: false
+    }
+  },
   props: {
     operation: {
       type: Object,
@@ -48,8 +54,10 @@ export default {
   },
   methods: {
     deleteButtonClicked() {
+      this.isLoading = true
       this.$store.dispatch('removeOperation', this.operation._id)
       .then(() => {
+        this.isLoading = false
         this.$notify({
           group: 'app-notifications',
           text: 'Operation borttagen',
@@ -57,6 +65,7 @@ export default {
         })
       })
       .catch((message) => {
+        this.isLoading = false
         this.$notify({
           group: 'app-notifications',
           text: message,

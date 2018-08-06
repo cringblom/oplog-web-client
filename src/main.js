@@ -194,6 +194,9 @@ const store = new Vuex.Store({
             if (err.response.status === 401) {
               context.commit('setAuthenticationState', false)
               resolve()
+            } else if (err.response.status === 400) {
+              context.dispatch('fetchOperations')
+              reject('Operationen verkar redan vara borttagen. Operationslistan har nu updaterats')
             } else if (err.response.status === 500) {
               reject('Ett fel uppstod. Försök igen.')
             }
