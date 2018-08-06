@@ -28,7 +28,6 @@ const store = new Vuex.Store({
     isAuthenticated: false,
     addOperationModalIsVisible: false,
     removeAccountModalIsVisible: false,
-    loadingOperations: false,
     showLeftSection: false
   },
   mutations: {
@@ -83,9 +82,6 @@ const store = new Vuex.Store({
         }
       }
     },
-    setLoadingOperationsState: function(state, newLoadingOperationsState) {
-      state.loadingOperations = newLoadingOperationsState
-    },
     toggleLeftSection: function(state) {
       state.showLeftSection = !state.showLeftSection
     },
@@ -119,34 +115,94 @@ const store = new Vuex.Store({
   },
   actions: {
     fetchUser: function(context) {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         axios.get('/api/v1/user')
         .then((res) => {
           context.state.username = res.data.username
           resolve()
         })
         .catch((err) => {
-          console.log(err);
-          if (err.response.status === 401) {
-            context.commit('setAuthenticationState', false)
+          if (err.response) {
+            if (err.response.status === 401) {
+              context.commit('setAuthenticationState', false)
+            } else if (err.response.status === 500) {
+              reject('Ett fel uppstod. Försök igen.')
+            }
+          } else if (err.request) {
+            reject('Det verkar inte finnas någon nätverksanslutning. Försök igen.')
+          } else {
+            reject('Ett fel uppstod. Försök igen')
           }
         })
       })
     },
     fetchOperations: function(context) {
-      console.log('fetchOperations');
-      context.commit('setLoadingOperationsState', true)
-      axios.get('/api/v1/operations')
-      .then((res) => {
-        context.commit('setOperations', res.data)
-        context.commit('setLoadingOperationsState', false)
+      return new Promise(function(resolve, reject) {
+        axios.get('/api/v1/operations')
+        .then((res) => {
+          context.commit('setOperations', res.data)
+          resolve()
+        })
+        .catch((err) => {
+          if (err.response) {
+            if (err.response.status === 401) {
+              context.commit('setAuthenticationState', false)
+              resolve()
+            } else if (err.response.status === 500) {
+              reject('Ett fel uppstod. Försök igen.')
+            }
+          } else if (err.request) {
+            reject('Det verkar inte finnas någon nätverksanslutning. Försök igen.')
+          } else {
+            reject('Ett fel uppstod. Försök igen')
+          }
+        })
       })
-      .catch((err) => {
-        console.log(err);
-        if (err.response.status === 401) {
-          context.commit('setLoadingOperationsState', false)
-          context.commit('setAuthenticationState', false)
-        }
+    },
+    addOperation: function(context, newOperation) {
+      return new Promise(function(resolve, reject) {
+        axios.post("/api/v1/operations", newOperation)
+        .then((res) => {
+          context.commit('addOperation', res.data)
+          resolve()
+        })
+        .catch(function(err) {
+          if (err.response) {
+            if (err.response.status === 401) {
+              context.commit('setAuthenticationState', false)
+              resolve()
+            } else if (err.response.status === 500) {
+              reject('Ett fel uppstod. Försök igen.')
+            }
+          } else if (err.request) {
+            reject('Det verkar inte finnas någon nätverksanslutning. Försök igen.')
+          } else {
+            reject('Ett fel uppstod. Försök igen')
+          }
+        })
+      })
+    },
+    removeOperation: function(context, operationId) {
+      return new Promise(function(resolve, reject) {
+        axios.delete('/api/v1/operations/'+operationId)
+        .then(() => {
+          context.commit('removeOperation', operationId)
+          resolve()
+        })
+        .catch((err) => {
+          if (err.response) {
+            if (err.response.status === 401) {
+              context.commit('setAuthenticationState', false)
+              resolve()
+            } else if (err.response.status === 500) {
+              reject('Ett fel uppstod. Försök igen.')
+            }
+          } else if (err.request) {
+            reject('Det verkar inte finnas någon nätverksanslutning. Försök igen.')
+          } else {
+            reject('Ett fel uppstod. Försök igen')
+          }
+        })
       })
     },
     getAuthenticatedState: function(context) {

@@ -14,7 +14,6 @@
 <script>
 import IcdLibrary from '../assets/IcdLibrary.js'
 import moment from 'moment'
-import axios from 'axios'
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import trashIcon from '@fortawesome/fontawesome-free-solid/faTrashAlt'
 export default {
@@ -49,13 +48,21 @@ export default {
   },
   methods: {
     deleteButtonClicked() {
-      axios.delete('/api/v1/operations/'+this.operation._id)
+      this.$store.dispatch('removeOperation', this.operation._id)
       .then(() => {
-        console.log('Deleted!');
-        this.$store.commit('removeOperation', this.operation._id)
+        console.log("HELLO");
+        this.$notify({
+          group: 'app-notifications',
+          text: 'Operation borttagen',
+          type: 'info',
+        })
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((message) => {
+        this.$notify({
+          group: 'app-notifications',
+          text: message,
+          type: 'error',
+        })
       })
     }
   },

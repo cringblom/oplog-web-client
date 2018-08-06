@@ -57,7 +57,10 @@ body {
     @include oplog-button-color-style($oplog-button-color-default)
   }
   &.oplog-button-red {
-    @include oplog-button-color-style($oplog-button-red)
+    @include oplog-button-color-style($oplog-red)
+  }
+  &.oplog-button-gray {
+    @include oplog-button-color-style($oplog-gray)
   }
 }
 //INPUTS------------------------------------------------------------------------
@@ -276,14 +279,21 @@ $oplog-tooltip-color: rgba(0, 0, 0, 0.7);
   width: auto;
   padding: 15px;
   margin-top: 20px;
+  font-size: 1rem;
   &.info {
     color: $oplog-font-color;
     background: $oplog-light-gray;
+    border-left: 3px solid mix(black, $oplog-light-gray, 30%);
   }
   &.error {
     color: white;
     background: $oplog-red;
-    border-top: 3px solid mix(black, $oplog-red, 30%);
+    border-left: 3px solid mix(black, $oplog-red, 30%);
+  }
+  &.success {
+    color: white;
+    background: $oplog-green;
+    border-left: 3px solid mix(black, $oplog-green, 30%);
   }
 }
 //LOGIN-------------------------------------------------------------------------

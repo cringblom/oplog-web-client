@@ -1,5 +1,9 @@
 <template lang="pug">
-  div.operations-view-container.loading-operations(v-if="$store.state.loadingOperations") Laddar operationer...
+  div.operations-view-container.loading-operations(v-if="isLoading") Laddar operationer...
+  div.operations-view-container.loading-operations(v-else-if="errorLoadingOperations")
+    div Kunde inte ladda operationer.
+    button.oplog-button.oplog-button-gray.operations-retry-button(@click='loadOperations') Försök igen
+    notifications(position='top center' group='operations-notifications' classes='oplog-notification' width='300px')
   div.operations-view-container(v-else-if="operations.length > 0")
     div.operations-view-left-section(:class='{"show-left-section": $store.state.showLeftSection}')
       icd-groups-view
@@ -25,6 +29,12 @@ import operationItemView from './operation-item-view.vue'
 import icdGroupsView from './icd-groups-view.vue'
 export default {
   name: 'operations-view',
+  data() {
+    return {
+      isLoading: false,
+      errorLoadingOperations: false
+    }
+  },
   computed: {
     operations: function() {
       if (this.icd) {
@@ -72,8 +82,27 @@ export default {
     operationItemView,
     icdGroupsView
   },
+  methods: {
+    loadOperations: function() {
+      this.isLoading = true
+      this.$store.dispatch('fetchOperations')
+      .then(() => {
+        this.isLoading = false
+        this.errorLoadingOperations = false
+      })
+      .catch((message) => {
+        this.errorLoadingOperations = true
+        this.isLoading = false
+        this.$notify({
+          group: 'app-notifications',
+          text: message,
+          type: 'error',
+        })
+      })
+    }
+  },
   created() {
-    this.$store.dispatch('fetchOperations')
+    this.loadOperations()
   }
 }
 </script>
@@ -90,7 +119,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: rgba(3, 3, 3, 0.4);
+  color: $oplog-gray;
   font-size: 1.5rem
 }
 .operations-view-left-section {
@@ -169,5 +198,8 @@ export default {
 }
 .sad-face {
   font-size: 1.8rem;
+}
+.operations-retry-button {
+  margin-top: 10px;
 }
 </style>

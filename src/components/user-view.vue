@@ -35,9 +35,14 @@ export default {
       this.loadingUser = false
       this.username = this.$store.state.username
     })
-    .catch(() => {
+    .catch((message) => {
       this.loadingUser = false
       this.username = undefined
+      this.$notify({
+        group: 'app-notifications',
+        text: message,
+        type: 'error',
+      })
     })
   }
 }

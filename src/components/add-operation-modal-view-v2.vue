@@ -3,61 +3,65 @@
     div.modal-container.modal-container-green
       div.modal-header
         div
-          button.oplog-button.oplog-button-default(v-if='stepIndex > 0' @click='stepIndex--')
+          button.oplog-button.oplog-button-default(v-if='stepIndex > 0 && isLoading === false' @click='stepIndex--')
             font-awesome-icon(:icon='chevronLeft' style='margin-right: 5px')
             span Tillbaka
         div
           span.modal-title {{modalTitle}}
         div
           button.modal-close-button(@click='close') &times;
-      transition(name='fade' mode='out-in')
-        //Step 1: Operation
-        div.modal-content(v-if='stepIndex === 0' key='step0')
-          input.operation-input(
-            v-model='icdInput'
-            ref='icdInput'
-            placeholder='Sök operation'
-            @keyup.down.stop='icdSlectorDownKey'
-            @keyup.up.stop='icdSlectorUpKey'
-            @keyup.enter.stop='icdSelectorEnterKey')
-          div.icd-selector
-            div.icd-selector-content(v-if='filteredIcdCodes.length == 0 && icdInput.length == 0') Sök operation ovan
-            div.icd-selector-content(v-else-if='filteredIcdCodes.length == 0') Hittade tyvärr inget :/
-            div.icd-selector-item(
-              v-else
-              v-for='(icdCode, index) in filteredIcdCodes'
-              :class='{"icd-selector-item-selected": index == icdSelectorSelectedIndex}'
-              @click='selectedIcd = icdCode; stepIndex++  '
-              @mouseover='icdSelectorSelectedIndex = index') {{icdCode.icd}} {{icdCode.name}}
-          div.modal-info Sök och välj en operation ovan.
-        //Step 2: Date
-        div.modal-content(v-if='stepIndex === 1' key='step1')
-          div.date-picker-wrapper
-            date-picker(v-model='date'
-              @input='stepIndex++'
-              is-inline
-              is-expanded
-              :attributes='datePickerAttributes'
-              :max-date='new Date()'
-              :theme-styles='datePickerSyle')
-          div.modal-info Klicka på datumet operationen utfördes.
-        //Step 3: Op/Ass
-        div.modal-content(v-if='stepIndex === 2' key='step2')
-          div.op-ass-selector
-            button.op-ass-button.op-ass-button-green(@click='mainOperator = true; submit()')
-              div.op-ass-button-icd {{selectedIcd.icd}}
-              div.op-ass-button-date {{formatedDate}}
-              div Operatör
-            button.op-ass-button.op-ass-button-yellow(@click='mainOperator = false; submit()')
-              div.op-ass-button-icd {{selectedIcd.icd}}
-              div.op-ass-button-date {{formatedDate}}
-              div Assistent
+      //Loading
+      div.modal-content(v-if='isLoading === true' key='loading')
+        div.loading-text Lägger till...
+      //Step 1: Operation
+      div.modal-content(v-else-if='stepIndex === 0' key='step0')
+        input.operation-input(
+          v-model='icdInput'
+          ref='icdInput'
+          placeholder='Sök operation'
+          @keyup.down.stop='icdSlectorDownKey'
+          @keyup.up.stop='icdSlectorUpKey'
+          @keyup.enter.stop='icdSelectorEnterKey')
+        div.icd-selector
+          div.icd-selector-content(v-if='filteredIcdCodes.length == 0 && icdInput.length == 0') Sök operation ovan
+          div.icd-selector-content(v-else-if='filteredIcdCodes.length == 0') Hittade tyvärr inget :/
+          div.icd-selector-item(
+            v-else
+            v-for='(icdCode, index) in filteredIcdCodes'
+            :class='{"icd-selector-item-selected": index == icdSelectorSelectedIndex}'
+            @click='selectedIcd = icdCode; stepIndex++  '
+            @mouseover='icdSelectorSelectedIndex = index') {{icdCode.icd}} {{icdCode.name}}
+        div.modal-info Sök och välj en operation ovan.
+      //Step 2: Date
+      div.modal-content(v-else-if='stepIndex === 1' key='step1')
+        div.date-picker-wrapper
+          date-picker(
+            v-model='date'
+            @dayclick='daySelected'
+            is-inline
+            is-expanded
+            is-required=true
+            mode='single'
+            :attributes='datePickerAttributes'
+            :max-date='new Date()'
+            :theme-styles='datePickerStyle')
+        div.modal-info Välj datum då operationen utfördes.
+      //Step 3: Op/Ass
+      div.modal-content(v-else-if='stepIndex === 2' key='step2')
+        div.op-ass-selector
+          button.op-ass-button.op-ass-button-green(@click='mainOperator = true; submit()')
+            div.op-ass-button-icd {{selectedIcd.icd}}
+            div.op-ass-button-date {{formatedDate}}
+            div Operatör
+          button.op-ass-button.op-ass-button-yellow(@click='mainOperator = false; submit()')
+            div.op-ass-button-icd {{selectedIcd.icd}}
+            div.op-ass-button-date {{formatedDate}}
+            div Assistent
 </template>
 
 <script>
 import IcdLibrary from '../assets/IcdLibrary.js'
 import moment from 'moment'
-import axios from 'axios'
 import {setupCalendar, DatePicker} from 'v-calendar'
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import chevronLeft from '@fortawesome/fontawesome-free-solid/faChevronLeft'
@@ -81,7 +85,7 @@ export default {
           dates: new Date()
         }
       ],
-      datePickerSyle: {
+      datePickerStyle: {
         wrapper: {
           background: 'white',
           border: 'solid 1px rgb(233, 233, 233)',
@@ -101,23 +105,43 @@ export default {
       this.$store.commit('hideAddOperationModal')
     },
     submit: function() {
-      console.log("SUbmit");
       this.isLoading = true
       var newOperation = {
         icd: this.selectedIcd.icd,
         date: moment(this.date).format('YYYY-MM-DD'),
         mainOperator: this.mainOperator
       }
-      axios.post("/api/v1/operations", newOperation)
-      .then((res) => {
-        this.$store.commit('addOperation', res.data)
+      this.$store.dispatch('addOperation', newOperation)
+      .then(() => {
         this.$store.commit('hideAddOperationModal')
+        this.$notify({
+          group: 'app-notifications',
+          text: newOperation.icd + ' sparad.',
+          type: 'success',
+        })
       })
-      .catch(function(err) {
+      .catch((message) => {
         this.isLoading = false
-        console.log(err)
-        console.log(err.response);
+        this.resetData()
+        this.$notify({
+          group: 'app-notifications',
+          text: message,
+          type: 'error',
+        })
       })
+    },
+    resetData: function() {
+      this.stepIndex = 0
+      this.icdInput = ''
+      this.selectedIcd = undefined
+      this.date = new Date()
+      this.isLoading = false
+      this.icdSelectorSelectedIndex = 0
+    },
+    daySelected: function(day) {
+      if (day.date <= new Date()) {
+        this.stepIndex++
+      }
     },
     icdSlectorDownKey: function() {
       if (this.icdSelectorSelectedIndex < this.filteredIcdCodes.length-1) {
@@ -186,17 +210,6 @@ export default {
 
 <style scoped lang="scss">
 @import '../style-variables';
-/*
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-.fade-enter-to, .fade-leave {
-  opacity: 1;
-}
-.fade-enter-active, .fade-leave-active {
-  transition: all 0.1s ease;
-}
-*/
 .modal-content {
   display: flex;
   flex-direction: column;
@@ -210,6 +223,11 @@ export default {
     margin-top: 10px;
     color: $oplog-gray
   }
+}
+.loading-text {
+  font-size: 1.5rem;
+  color: $oplog-gray;
+  align-self: center;
 }
 .operation-input {
   flex: 1 0 40px;
@@ -266,6 +284,8 @@ export default {
 }
 .date-picker-wrapper {
   flex: 1 0 auto;
+  align-self: center;
+  width: 400px;
 }
 .op-ass-selector {
   display: flex;
