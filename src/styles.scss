@@ -316,13 +316,13 @@ $oplog-tooltip-color: rgba(0, 0, 0, 0.7);
 }
 .oplog-login-left-section {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 10px;
   background-color: $oplog-green;
   color: white;
   .oplog-login-left-section-content {
+    flex: 1 0 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
