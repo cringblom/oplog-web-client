@@ -1,0 +1,370 @@
+@import './style-variables';
+
+html, body {
+  height: 100%;
+}
+body {
+  font-family: Helvetica Neue, Helvetica, sans-serif;
+  color: $oplog-font-color;
+  margin: 0;
+}
+//BUTTONS-----------------------------------------------------------------------
+@mixin oplog-button-color-style($color) {
+  color: $color;
+  border-color: mix(white, $color, 70%);
+  &:hover:enabled {
+    border-color: mix(white, $color, 50%);
+    background: mix(white, $color, 90%);
+  }
+  &:active:enabled {
+    border-color: mix(white, $color, 0%);
+    background: mix(white, $color, 90%);
+  }
+  &:focus:enabled {
+    border-color: mix(white, $color, 0%);
+  }
+  &:disabled {
+    color: mix(white, $color, 50);
+    cursor: not-allowed;
+  }
+}
+.oplog-button {
+  height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid;
+  border-radius: 4px;
+  outline: none;
+  text-decoration: none;
+  background: white;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  &.w-100 {
+    width: 100%;
+  }
+  &.oplog-button-sm {
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  &.oplog-button-default {
+    @include oplog-button-color-style($oplog-button-color-default)
+  }
+  &.oplog-button-red {
+    @include oplog-button-color-style($oplog-red)
+  }
+  &.oplog-button-gray {
+    @include oplog-button-color-style($oplog-gray)
+  }
+}
+//INPUTS------------------------------------------------------------------------
+.oplog-input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid $oplog-input-border-color;
+  border-radius: 4px;
+  padding: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: $oplog-input-text-color;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: none;
+  -webkit-appearance: none;
+  &:hover:enabled {
+    border-color: $oplog-input-border-color-hover;
+  }
+  &:focus:enabled {
+    border-color: $oplog-input-border-color-focus;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    color: mix(white, $oplog-input-text-color, 50%);
+  }
+}
+//LABEL-------------------------------------------------------------------------
+@mixin oplog-label-color-style($color) {
+  color: $color;
+  background: mix(white, $color, 90);
+  border-color: mix(white, $color, 60);
+}
+.oplog-label {
+  font-size: 0.8rem;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  border: 1px solid;
+  border-radius: 4px;
+  &.default {
+    @include oplog-label-color-style(rgb(108, 108, 108));
+  }
+  &.op {
+    @include oplog-label-color-style($oplog-green);
+  }
+  &.ass {
+    @include oplog-label-color-style($oplog-yellow);
+  }
+}
+//TOOLTIP-----------------------------------------------------------------------
+$oplog-tooltip-color: rgba(0, 0, 0, 0.7);
+.tooltip {
+  display: block !important;
+  z-index: 10000;
+
+  .tooltip-inner {
+    background: $oplog-tooltip-color;
+    color: white;
+    font-weight: 300;
+    font-size: 1rem;
+    border-radius: 4px;
+    padding: 5px;
+  }
+
+  .tooltip-arrow {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    margin: 5px;
+    border-color: $oplog-tooltip-color;;
+    z-index: 1;
+  }
+
+  &[x-placement^="top"] {
+    margin-bottom: 5px;
+
+    .tooltip-arrow {
+      border-width: 5px 5px 0 5px;
+      border-left-color: transparent !important;
+      border-right-color: transparent !important;
+      border-bottom-color: transparent !important;
+      bottom: -5px;
+      left: calc(50% - 5px);
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &[x-placement^="bottom"] {
+    margin-top: 5px;
+
+    .tooltip-arrow {
+      border-width: 0 5px 5px 5px;
+      border-left-color: transparent !important;
+      border-right-color: transparent !important;
+      border-top-color: transparent !important;
+      top: -5px;
+      left: calc(50% - 5px);
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &[x-placement^="right"] {
+    margin-left: 5px;
+
+    .tooltip-arrow {
+      border-width: 5px 5px 5px 0;
+      border-left-color: transparent !important;
+      border-top-color: transparent !important;
+      border-bottom-color: transparent !important;
+      left: -5px;
+      top: calc(50% - 5px);
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &[x-placement^="left"] {
+    margin-right: 5px;
+
+    .tooltip-arrow {
+      border-width: 5px 0 5px 5px;
+      border-top-color: transparent !important;
+      border-right-color: transparent !important;
+      border-bottom-color: transparent !important;
+      right: -5px;
+      top: calc(50% - 5px);
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &[aria-hidden='true'] {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .15s, visibility .15s;
+  }
+
+  &[aria-hidden='false'] {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .15s;
+  }
+}
+//MODAL-------------------------------------------------------------------------
+.modal-mask {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: rgba(0, 0, 0, .5);
+  overflow-y: scroll;
+}
+.modal-container {
+  flex: 0 0 600px;
+  height: 400px;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  @media all and (max-width: $oplog-width-breakpoint) {
+    flex: 1;
+    height: 100%;
+  }
+}
+.modal-container-green {
+  border-top: 3px solid $oplog-green;
+}
+.modal-container-red {
+  border-top: 3px solid $oplog-red;
+}
+.modal-header {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: space-between;
+  > * {
+    flex: 1;
+    display: flex;
+  }
+}
+.modal-title {
+  font-size: 1.5rem;
+  margin: auto;
+  flex-shrink: 0;
+}
+.modal-close-button {
+  margin-right: 0;
+  margin-left: auto;
+  align-self: flex-start;
+  color: $oplog-gray;
+  outline: none;
+  font-size: 2rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  &:hover {
+    color: black;
+  }
+}
+//MESSAGE-----------------------------------------------------------------------
+.oplog-notification {
+  width: auto;
+  padding: 15px;
+  margin-top: 20px;
+  font-size: 1rem;
+  &.info {
+    color: $oplog-font-color;
+    background: $oplog-light-gray;
+    border-left: 3px solid mix(black, $oplog-light-gray, 30%);
+  }
+  &.error {
+    color: white;
+    background: $oplog-red;
+    border-left: 3px solid mix(black, $oplog-red, 30%);
+  }
+  &.success {
+    color: white;
+    background: $oplog-green;
+    border-left: 3px solid mix(black, $oplog-green, 30%);
+  }
+}
+//LOGIN-------------------------------------------------------------------------
+.oplog-login-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.oplog-login-content {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  @media all and (max-width: $oplog-width-breakpoint) {
+    flex-direction: column-reverse;
+  }
+  > * {
+    flex: 1 1 100%
+  }
+}
+.oplog-login-left-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: $oplog-green;
+  color: white;
+  .oplog-login-left-section-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+  }
+}
+.oplog-login-right-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  .oplog-login-right-section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .oplog-login-right-section-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+  }
+}
+.oplog-login-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 20px;
+  flex-basis: 50px;
+  color: rgba(0, 0, 0, 0.5);
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+  .oplog-login-footer-link {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
