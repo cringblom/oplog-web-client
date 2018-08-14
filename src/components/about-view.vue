@@ -1,25 +1,45 @@
 <template lang="pug">
 div.about-content
   div.block.title-block
-      div.about-title.green Om oplog.se
-  div.block.intro-block.green-bg
+      div.about-title.green Om
+  div.block.green-bg.padding-tb
     .block-content
-      //div.intro-block-title.white oplog.se är en operationslogg för alla opererande läkare
-      div.intro-block-title.white En operationslogg i molnet. Just nu i beta. Mer info kommer inom kort.
-  //div.block.padding-tb
+      div.intro-block-title.white Oplog.se är en operationslogg för alla läkare!
+  div.block.padding-tb
     .block-content
-      div.block-section
-        div.block-title För alla operatörer
-        div.block-text oplog.se lämpar sig för alla opererande läkare. Varje ingrep registreras med en ICD-kod och samtliga av Socialstyrelsens KVÅ-koder finns att välja mellan. Detta gör att du kan använda oplog.se oavsett om du är kirurg, ortoped, eller annan opererande läkare.
-      div.block-section
-        div.block-text Vanliga metoder som att skapa exceldokument, skriva ut op-berätterlser eller rtg-bilder är svåra att underhålla och ger en relativt dålig överblick. Med oplog.se ser du snabbt hur många operationer du utfört av varje typ och hur länge sedan du gjorde de senast.
-  //div.block.padding-tb
-    div.block-text oplog.se utvecklas och drivs ideelt och kostar därför ingenting att använda.
+      .block-text-section
+        span.block-section-title För alla
+        span.block-section-body  Oplog.se kan användas av alla läkare oavsett specialitet. Eftersom man registrerar sina operationer med socialstyrelsens KVÅ-koder finns samtliga åtgärder eller operationer att välja mellan. Det är lika lätt att registrera att du utfört en förlossningsepidural som en buklaparotomi!
+      img.block-img.block-img-right(src='../assets/surgeon.svg')
+  div.block.padding-tb
+    .block-content
+      img.block-img.block-img-left(src='../assets/code.svg')
+      .block-text-section
+        span.block-section-title Av läkare
+        span.block-section-body
+          | Oplog.se är skapat och utvecklat av läkare.
+          | Tjänsten drivs ideelt och kostar ingenting att använda.
+          | Målsättningen är att det ska vara så enkelt som möjligt att hålla koll på dina operationer eller åtgärder.
+          | Webklienten är öppen källkod och finns på GitHub.
+          | Är du intresserad av att bidra och förbättra oplog.se, hör av dig!
+        button.oplog-button.oplog-button-default(@click='email' style='width: 200px; margin-top: 10px;') Kontakta oss
+  .footer
+    .contact-links
+      a.contact-img-container(href='https://www.facebook.com/oplog.se/' target='_blank')
+        img.contact-img(src='../assets/facebook.svg')
+      a.contact-img-container(href='mailto:oplog.dev@gmail.com')
+        img.contact-img(src='../assets/envelope.svg')
+      a.contact-img-container(href='https://github.com/cringblom/oplog-web-client' target='_blank')
+        img.contact-img(src='../assets/github.svg')
 </template>
 
 <script>
 export default {
-
+  methods: {
+    email: function() {
+      document.location.href = "mailto:oplog.dev@gmail.com"
+    }
+  }
 }
 </script>
 
@@ -31,16 +51,41 @@ export default {
 }
 .block {
   display: flex;
-  flex: 1;
+  flex: 1 1 100%;
   align-items: center;
   justify-content: center;
   padding: 10px;
 }
 .block-content {
   display: flex;
-  width: $oplog-width-breakpoint;
+  align-items: center;
+  width: 1200px;
   @media all and (max-width: $oplog-width-breakpoint) {
     flex-direction: column;
+  }
+  &>*:first-child {
+    margin-right: 50px;
+  }
+}
+.block-text-section {
+  flex: 2 1 100%;
+  display: flex;
+  flex-direction: column;
+  .block-section-title {
+    font-size: 2rem;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  .block-section-body {
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+}
+.block-img {
+  flex: 1 0 auto;
+  height: 250px;
+  @media all and (max-width: $oplog-width-breakpoint) {
+    display: none;
   }
 }
 .block-section {
@@ -54,33 +99,46 @@ export default {
   .about-title {
     margin: auto;
     font-size: 4rem;
-    font-weight: 300;
-  }
-}
-.block-title {
-  text-align: center;
-  font-size: 1.7rem;
-  color: rgb(93, 93, 93);
-  margin-bottom: 20px;
-  font-weight: 500;
-}
-.block-text {
-  font-size: 1.3rem;
-  color: rgb(93, 93, 93);
-  font-weight: 400;
-}
-.intro-block {
-  background: rgb(237, 237, 237);
-  .intro-block-title {
-    font-size: 1.5rem;
     font-weight: 400;
-    margin-top: 40px;
-    margin-bottom: 40px;
-    text-align: center;
   }
-  .intro-block-text {
-    font-size: 1.5rem;
+}
+.intro-block-title {
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-align: center;
+  width: 100%;
+}
+.footer {
+  width: 100%;
+  height: 80px;
+  border-top: 1px solid gray;
+}
+.contact-links {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & > * {
+    margin-right: 10px;
   }
+  & > *:last-child {
+    margin-right: 0;
+  }
+}
+.contact-img-container {
+  $size: 50px;
+  $border-color: #4A4A4A; //Must match img fill color
+  width: $size;
+  height: $size;
+  border: solid 2px $border-color;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.contact-img {
+  margin: auto;
+  width: 60%;
 }
 .green-bg {
   background: $oplog-green;
