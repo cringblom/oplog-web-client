@@ -75,7 +75,7 @@ export default {
           this.$notify({
             group: 'login-notifications',
             text: message,
-            type: 'error',
+            type: 'error'
           })
         })
       } else {
