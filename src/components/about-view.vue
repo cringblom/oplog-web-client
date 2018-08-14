@@ -18,7 +18,7 @@ div.about-content
         span.block-section-title Av läkare
         span.block-section-body
           | Oplog.se är skapat och utvecklat av läkare.
-          | Tjänsten drivs ideelt och kostar ingenting att använda.
+          | Tjänsten drivs ideellt och kostar ingenting att använda.
           | Målsättningen är att det ska vara så enkelt som möjligt att hålla koll på sina operationer eller åtgärder.
           | Webklienten är öppen källkod och finns på GitHub. Se länk nedan.
           | Är du intresserad av att bidra och förbättra oplog.se, hör av dig!
