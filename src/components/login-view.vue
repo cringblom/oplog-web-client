@@ -7,7 +7,6 @@ div.oplog-login-container
         img.logo(src='../assets/scalpel-icon-white-nobg.svg')
         div.title-text Välkommen till oplog.se!
         div.subtitle-text Din operationslogg i molnet.
-        div.subtitle-2-text För bästa användarupplevelse använd Google Chrome &reg;
     div.oplog-login-right-section
       div.oplog-login-right-section-title Logga in
       form.oplog-login-right-section-content(@submit.prevent="login")
@@ -75,7 +74,7 @@ export default {
           this.$notify({
             group: 'login-notifications',
             text: message,
-            type: 'error',
+            type: 'error'
           })
         })
       } else {
@@ -115,6 +114,7 @@ export default {
   margin-top: 5px;
   font-size: 0.9rem;
   font-style: italic;
+  text-align: center;
 }
 .login-form-button-separator {
   width: 50%;

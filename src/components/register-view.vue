@@ -8,10 +8,12 @@
           div.subtitle Du behöver bara ange din epostadress. Ett mail kommer sedan att skickas till dig med en länk för att starta kontot.
           div.subtitle Ett tips är att använda en personlig epostadress om du någon gång skulle byta arbetsgivare.
           div.subtitle
-            span Genom att skapa ett konto godkänner du
-            span.user-agreement-link(@click='$router.push("/user-agreement")')  användarvilkoren
+            span
+              | Genom att skapa ett konto godkänner du
+              |
+            span.user-agreement-link(@click='$router.push("/user-agreement")') användarvilkoren
             span .
-          div.subtitle OpLog är helt gratis!
+          div.subtitle Att skapa ett konto och använda oplog.se är helt gratis!
         div.oplog-login-left-section-content(v-if='$route.name == "forgot-password-route"')
           div.title Glömt lösenordet?
           div.subtitle Ingen fara. Ange bara din epostadress här. En länk kommer att skickas till dig. Klicka på länken för att återställa lösenordet.
@@ -104,6 +106,7 @@ export default {
   font-size: 2.2rem;
   font-weight: 500;
   margin-bottom: 10px;
+  width: 100%;
   align-self: flex-start;
 }
 .subtitle {
