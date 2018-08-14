@@ -19,8 +19,8 @@ div.about-content
         span.block-section-body
           | Oplog.se är skapat och utvecklat av läkare.
           | Tjänsten drivs ideelt och kostar ingenting att använda.
-          | Målsättningen är att det ska vara så enkelt som möjligt att hålla koll på dina operationer eller åtgärder.
-          | Webklienten är öppen källkod och finns på GitHub.
+          | Målsättningen är att det ska vara så enkelt som möjligt att hålla koll på sina operationer eller åtgärder.
+          | Webklienten är öppen källkod och finns på GitHub. Se länk nedan.
           | Är du intresserad av att bidra och förbättra oplog.se, hör av dig!
         button.oplog-button.oplog-button-default(@click='email' style='width: 200px; margin-top: 10px;') Kontakta oss
   .footer
@@ -51,13 +51,14 @@ export default {
 }
 .block {
   display: flex;
-  flex: 1 1 100%;
+  flex: 0 1 auto;
   align-items: center;
   justify-content: center;
   padding: 10px;
 }
 .block-content {
   display: flex;
+  //flex: 1 0 auto;
   align-items: center;
   width: 1200px;
   @media all and (max-width: $oplog-width-breakpoint) {
@@ -68,7 +69,7 @@ export default {
   }
 }
 .block-text-section {
-  flex: 2 1 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   .block-section-title {
@@ -82,22 +83,15 @@ export default {
   }
 }
 .block-img {
-  flex: 1 0 auto;
-  height: 250px;
+  width: 250px;
   @media all and (max-width: $oplog-width-breakpoint) {
     display: none;
   }
-}
-.block-section {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
 }
 .title-block {
   padding-top: 30px;
   padding-bottom: 30px;
   .about-title {
-    margin: auto;
     font-size: 4rem;
     font-weight: 400;
   }
@@ -137,7 +131,6 @@ export default {
   justify-content: center;
 }
 .contact-img {
-  margin: auto;
   width: 60%;
 }
 .green-bg {
