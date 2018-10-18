@@ -5,9 +5,9 @@
     button.oplog-button.oplog-button-gray.operations-retry-button(@click='loadOperations') Försök igen
     notifications(position='top center' group='operations-notifications' classes='oplog-notification' width='300px')
   div.operations-view-container(v-else-if="operations.length > 0")
-    div.operations-view-left-section(:class='{"show-left-section": $store.state.showLeftSection}')
+    div.operations-view-left-section(:class='{"show-left-section": $store.state.showLeftSection}' data-cy='operations-view-left-section')
       icd-groups-view
-    div.operations-view-right-section(:class='{"show-left-section": $store.state.showLeftSection}')
+    div.operations-view-right-section(:class='{"show-left-section": $store.state.showLeftSection}' data-cy='operations-view-right-section')
       div.operations-view-right-section-title
         span.icd-title {{title}}
         div
@@ -39,7 +39,7 @@ export default {
     operations: function() {
       if (this.icd) {
         return _.filter(this.$store.state.operations, (operation) => {
-          return this.icd.toLowerCase() == operation.icd.toLowerCase()
+          return this.icd.toLowerCase() === operation.icd.toLowerCase()
         })
       }
       return this.$store.state.operations
@@ -99,6 +99,13 @@ export default {
           type: 'error',
         })
       })
+    }
+  },
+  watch: {
+    operations: function(value) {
+      if (value.length === 0) {
+        this.$router.push('/operations')
+      }
     }
   },
   created() {

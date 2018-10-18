@@ -7,7 +7,7 @@
         span.oplog-label(:class='labelClass') {{opAss}}
       div.icd-description {{name}}
     div.right-section
-      button.oplog-button.oplog-button-default(@click="deleteButtonClicked" tabindex='-1' :disabled='isLoading')
+      button.oplog-button.oplog-button-default(@click="deleteButtonClicked" tabindex='-1' :disabled='isLoading' data-cy='delete-operation-button')
         span(v-if='isLoading') Tar bort...
         font-awesome-icon(:icon='trashIcon' v-else)
 </template>

@@ -4,8 +4,8 @@
     div.header-container
       app-header-view
     router-view
-    add-operation-modal-view(v-if='$store.state.addOperationModalIsVisible')
-    remove-account-modal-view(v-if='$store.state.removeAccountModalIsVisible')
+    add-operation-modal-view(v-if='$store.state.addOperationModalIsVisible' data-cy='add-operation-modal-view')
+    remove-account-modal-view(v-if='$store.state.removeAccountModalIsVisible' data-cy='remove-account-modal-view')
 </template>
 
 <script>
