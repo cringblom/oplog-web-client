@@ -63,6 +63,6 @@
     "not ie <= 8"
   ],
   "gitHooks": {
-    "pre-commit": "npm run build"
+    "post-commit": "npm run build && ./publish.sh"
   }
 }
