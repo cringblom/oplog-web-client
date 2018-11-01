@@ -1,17 +1,22 @@
-// ***********************************************************
-// This example plugins/index.js can be used to load plugins
-//
-// You can change the location of this file or turn off loading
-// the plugins file with the 'pluginsFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/plugins-guide
-// ***********************************************************
-
-// This function is called when a project is opened or re-opened (e.g. due to
-// the project's config changing)
-
 module.exports = (on, config) => {
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
+  if (config.env.BACKEND_SCRIPTS_PATH) {
+    on('task', {
+      clearDb: () => {
+        return require(config.env.BACKEND_SCRIPTS_PATH+'clear-collections.js')()
+        .then(() => 'Database cleared!')
+      },
+      addUser: (data) => {
+        return require(config.env.BACKEND_SCRIPTS_PATH+'add-user.js')(data)
+        .then(() => 'User added!')
+      },
+      addTempUser: (data) => {
+        return require(config.env.BACKEND_SCRIPTS_PATH+'add-tempuser.js')(data)
+        .then(() => 'Temp User added!')
+      },
+      removeOperations: (data) => {
+        return require(config.env.BACKEND_SCRIPTS_PATH+'remove-operations.js')(data)
+        .then(() => 'Operations removed!')
+      }
+    })
+  }
 }

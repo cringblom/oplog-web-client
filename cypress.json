@@ -1,4 +1,8 @@
 {
-    "supportFile": false,
-    "baseUrl": "http://localhost:3000"
+    "baseUrl": "http://localhost:4000",
+    "video": false,
+    "env": {
+        "TEST_EMAIL": false,
+        "BACKEND_SCRIPTS_PATH": "/Users/Christian/Documents/oplog/test/test-scripts/"
+    }
 }

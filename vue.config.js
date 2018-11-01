@@ -12,7 +12,6 @@ module.exports = {
   },
 
   baseUrl: undefined,
-  outputDir: '../oplog/public',
   assetsDir: undefined,
   runtimeCompiler: undefined,
   productionSourceMap: undefined,

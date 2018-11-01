@@ -1,5 +1,9 @@
-
+let username = 'oplog.dev@gmail.com'
 describe('Forgot page', () => {
+    before(() => {
+        cy.task('clearDb')
+        cy.task('addUser', {username: username})
+    });
     beforeEach(() => {
         cy.visit('/#/forgot')
     });
@@ -15,17 +19,14 @@ describe('Forgot page', () => {
         cy.get('[data-cy=register-button]').click()
         cy.get('.oplog-notification.error').should('exist')
     })
-    it('should show info notification', () => {
-        cy.server()
-        cy.route({
-            url: '/api/v1/forgot',
-            method: 'POST',
-            status: 200,
-            response: {}
-        })
-        cy.get('[data-cy=email-input]').type('hello@hello.com')
-        cy.get('[data-cy=register-button]').click()
-        cy.get('.oplog-notification.error').should('not.exist')
-        cy.get('.oplog-notification.info').should('exist')
+    it('should show info notification', function() {
+        if (Cypress.env('TEST_EMAIL') === true) {
+            cy.get('[data-cy=email-input]').type(username)
+            cy.get('[data-cy=register-button]').click()
+            cy.get('.oplog-notification.error').should('not.exist')
+            cy.get('.oplog-notification.info').should('exist')
+        } else {
+            this.skip()
+        }
     })
 });

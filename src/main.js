@@ -298,8 +298,7 @@ const router = new Router({
             }
             return next()
           })
-          .catch((err) => {
-            console.log(err)
+          .catch(() => {
             return next()
           })
         } else {

@@ -1,34 +1,39 @@
+let username = 'oplog.dev@gmail.com'
+let password = 'testtest'
 describe('Operations page', () => {
     before(() => {
-        cy.exec('node ~/documents/oplog/dev-scripts/add-test-user.js')
+        cy.task('clearDb')
+        cy.task('addUser', {
+            username: username,
+            password: password
+        })
     })
     beforeEach(() => {
         cy.request({
             url: '/api/v1/login',
             method: 'POST',
             body: {
-                username: 'a.test.user@test.com',
-                password: 'testtest'
+                username: username,
+                password: password
             }
         })
     })
-    it('should contain Inga operationer', () => {
+    beforeEach(() => {
         cy.visit('/#/operations')
+    });
+    it('should contain Inga operationer', () => {
         cy.contains('Inga operationer')
     })
     it('should show modal when add operations is clicked', () => {
-        cy.visit('/#/operations')
         cy.get('[data-cy=add-operation-button]').click()
         cy.get('[data-cy=add-operation-modal-view]')
     })
     it('should navigate to user view if account button from dropdown is clicked', () => {
-        cy.visit('/#/operations')
         cy.get('[data-cy=user-dropdown-button]').click()
         cy.get('[data-cy=user-account-button]').click()
         cy.hash().should('equal', '#/user')
     })
     it('should logout if logout button from dropdown is clicked', () => {
-        cy.visit('/#/operations')
         cy.get('[data-cy=user-dropdown-button]').click()
         cy.get('[data-cy=dropdown-logout-button]').click()
         cy.hash().should('equal', '#/login')
@@ -43,20 +48,26 @@ describe('Operations page', () => {
 })
 describe('Operations page: Add/remove operation procedure', () => {
     before(() => {
-        cy.exec('node ~/documents/oplog/dev-scripts/add-test-user.js')
-    });
+        cy.task('clearDb')
+        cy.task('addUser', {
+            username: username,
+            password: password
+        })
+    })
     beforeEach(() => {
         cy.request({
             url: '/api/v1/login',
             method: 'POST',
             body: {
-                username: 'a.test.user@test.com',
-                password: 'testtest'
+                username: username,
+                password: password
             }
         })
     })
-    it('add operation procedure', () => {
+    beforeEach(() => {
         cy.visit('/#/operations')
+    });
+    it('add operation procedure', () => {
         cy.get('[data-cy=add-operation-button]').click()
         cy.get('[data-cy=operation-input]').type('jab30')
         cy.get('[data-cy=icd-selector-item]').contains('JAB30').click()
@@ -65,26 +76,30 @@ describe('Operations page: Add/remove operation procedure', () => {
         cy.get('[data-cy=operations-view-right-section]').contains('JAB30')
     });
     it('remove operation procedure', () => {
-        cy.visit('/#/operations')
         cy.get('[data-cy=operations-view-right-section]').contains('JAB30').get('[data-cy=delete-operation-button]').click()
         cy.contains('Inga operationer')
     });
 })
 describe('Operation page: Icd groups', () => {
-    beforeEach(() => {
-        cy.exec('node ~/documents/oplog/dev-scripts/add-test-user.js')
-    });
+    before(() => {
+        cy.task('clearDb')
+        cy.task('addUser', {
+            username: username,
+            password: password
+        })
+    })
     beforeEach(() => {
         cy.request({
             url: '/api/v1/login',
             method: 'POST',
             body: {
-                username: 'a.test.user@test.com',
-                password: 'testtest'
+                username: username,
+                password: password
             }
         })
     })
     beforeEach(() => {
+        cy.task('removeOperations', {username: username})
         cy.request({
             url: '/api/v1/operations',
             method: 'POST',
@@ -104,13 +119,14 @@ describe('Operation page: Icd groups', () => {
             }
         })
     })
-    it('should navigate to #/operations/JAB30 on icd group click', () => {
+    beforeEach(() => {
         cy.visit('/#/operations')
+    });
+    it('should navigate to #/operations/JAB30 on icd group click', () => {
         cy.get('[data-cy=operations-view-left-section').contains('JAB30').click()
         cy.hash().should('equal', '#/operations/JAB30')
     });
     it('should navigate to #/operations/ on icd group JAB30 click and JAB30 remove', () => {
-        cy.visit('/#/operations')
         cy.get('[data-cy=operations-view-left-section').contains('JAB30').click()
         cy.hash().should('equal', '#/operations/JAB30')
         cy.get('[data-cy=operations-view-right-section]').contains('JAB30').get('[data-cy=delete-operation-button]').click()
