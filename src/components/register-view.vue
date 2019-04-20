@@ -86,11 +86,11 @@ export default {
       .catch((err) => {
         this.isLoading = false
         var aMessage = 'Ett fel uppstod, försök igen...'
-        if (err.response.data.errorCode === 'EmailAlreadyInUse') {
-          aMessage = 'Epostadressen används redan'
+        if (err.response.data.errorCode === 'EmailAlreadyInUseError') {
+          aMessage = 'E-postadressen används redan'
         }
-        else if (err.response.data.errorCode === 'EmailSyntaxInvalid' || err.response.data.errorCode === 'EmailRequired') {
-          aMessage = 'Ange en giltig epostadress'
+        else if (err.response.data.errorCode === 'EmailSyntaxInvalidError' || err.response.data.errorCode === 'EmailRequiredError') {
+          aMessage = 'Ange en giltig e-postadress'
         }
         else if (err.response.data.errorCode === 'EmailNotFoundError') {
           aMessage = 'Epostadressen hittades inte...'
