@@ -12,12 +12,12 @@ describe('Register page', () => {
     });
     it('should show error notification if no email', () => {
         cy.get('[data-cy=register-button]').click()
-        cy.get('.oplog-notification.error').should('exist')
+        cy.get('.oplog-notification.error').should('contain', 'Ange en giltig e-postadress')
     })
     it('should show error notification if user already exists', () => {
         cy.get('[data-cy=email-input]').type(username)
         cy.get('[data-cy=register-button]').click()
-        cy.get('.oplog-notification.error').should('exist')
+        cy.get('.oplog-notification.error').should('contain', 'E-postadressen används redan')
     })
     it('should show info notification', function() {
         if (Cypress.env('TEST_EMAIL') === true) {
