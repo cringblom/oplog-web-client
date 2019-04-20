@@ -10,16 +10,16 @@ div.oplog-login-container
     div.oplog-login-right-section
       div.oplog-login-right-section-title Logga in
       form.oplog-login-right-section-content(@submit.prevent="login")
-        input.oplog-input(placeholder='Epost' v-model='email' type='email' style='margin-bottom: 10px;')
-        input.oplog-input(placeholder='Lösenord' type='password' v-model='password' style='margin-bottom: 10px;')
-        button.oplog-button.oplog-button-default.w-100(:disabled="loginButtonDisabled") {{loginButtonText}}
+        input.oplog-input(placeholder='Epost' v-model='email' type='email' style='margin-bottom: 10px;' data-cy='username-input')
+        input.oplog-input(placeholder='Lösenord' type='password' v-model='password' style='margin-bottom: 10px;' data-cy='password-input')
+        button.oplog-button.oplog-button-default.w-100(:disabled="loginButtonDisabled" data-cy='login-button') {{loginButtonText}}
         div.login-form-button-separator
-        button.oplog-button.oplog-button-sm.oplog-button-default.w-100(@click="$router.push('/register')" type='button') Skapa ett konto
+        button.oplog-button.oplog-button-sm.oplog-button-default.w-100(@click="$router.push('/register')" type='button' data-cy='register-button') Skapa ett konto
   div.oplog-login-footer
     div
-      span © 2018 oplog.se
+      span © 2019 oplog.se
     div
-      span.oplog-login-footer-link(@click="$router.push('/forgot')") Glömt lösenord?
+      span.oplog-login-footer-link(@click="$router.push('/forgot')" data-cy='forgot-link') Glömt lösenord?
       span.footer-separator |
       span.oplog-login-footer-link(@click="$router.push('/about')") Om
 </template>

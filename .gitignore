@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-/dist
+dist
 
 # local env files
 .env.local
@@ -23,3 +23,15 @@ yarn-error.log*
 
 # For local development
 .jshintrc
+
+# Vue
+vue.config.js
+
+# Cypress
+cypress/screenshots
+cypress/videos
+cypress.json
+cypress.env.json
+
+# Local scripts
+*.sh

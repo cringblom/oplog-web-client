@@ -8,17 +8,17 @@ div.header-view-container
       font-awesome-icon(:icon='chevronLeft')
       span(style='margin-left:7px') Tillbaka
   div.header-view-right-section
-    button.oplog-button.oplog-button-default.add-operation-button(v-if="addButtonIsVissible" @click="showAddOperationModal")
+    button.oplog-button.oplog-button-default.add-operation-button(v-if="addButtonIsVissible" @click="showAddOperationModal" data-cy='add-operation-button')
       font-awesome-icon.plus-icon(:icon='plusIcon')
       span.add-operation-button-text Lägg till operation...
     v-popover
-      span.user-dropdown-button(style="outline: none;")
+      span.user-dropdown-button(style="outline: none;" data-cy='user-dropdown-button')
         font-awesome-icon.user-icon(:icon="userIcon")
         font-awesome-icon.user-icon(:icon="caretDownIcon")
       template(slot='popover')
         div.user-dropdown-content
-          div(@click='$router.push("/user")' v-close-popover) Konto
-          div(@click='logout' v-close-popover) Logga ut
+          div(@click='$router.push("/user")' v-close-popover data-cy='user-account-button') Konto
+          div(@click='logout' v-close-popover data-cy='dropdown-logout-button') Logga ut
 </template>
 
 <script>

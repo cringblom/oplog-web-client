@@ -21,8 +21,8 @@
         div.oplog-login-right-section-title(v-if='$route.name == "register-route"') Registrera
         div.oplog-login-right-section-title(v-if='$route.name == "forgot-password-route"') Återställ lösenord
         div.oplog-login-right-section-content
-          input.oplog-input.email-input(placeholder='Din epostadress' v-model='email' type='email')
-          button.oplog-button.oplog-button-default.w-100(@click='register' :disabled='isLoading') {{registerButtonText}}
+          input.oplog-input.email-input(placeholder='Din epostadress' v-model='email' type='email' data-cy='email-input')
+          button.oplog-button.oplog-button-default.w-100(@click='register' :disabled='isLoading' data-cy='register-button') {{registerButtonText}}
     div.oplog-login-footer
       div
         span © 2018 oplog.se
@@ -63,11 +63,14 @@ export default {
     register: function() {
       this.isLoading = true
       var url
+      let message
       if (this.$route.name == 'register-route') {
         url = '/api/v1/register'
+        message = 'Ett mail är på väg till dig med en länk. Klicka på länken för att gå vidare med registreringen. Du kan nu stänga detta fönster'
       }
       if (this.$route.name == 'forgot-password-route') {
         url = '/api/v1/forgot'
+        message = 'Ett mail är på väg till dig med en länk. Klicka på länken för att återställa lösenordet. Du kan nu stänga detta fönster'
       }
       axios.post(url, {
         email: this.email
@@ -75,7 +78,7 @@ export default {
       .then(() => {
         this.$notify({
           group: 'register-notifications',
-          text: 'Ett mail är på väg till dig med en länk. Klicka på länken för att gå vidare med registreringen. Du kan nu stänga detta fönster',
+          text: message,
           type: 'info',
           duration: -1
         })
@@ -83,11 +86,14 @@ export default {
       .catch((err) => {
         this.isLoading = false
         var aMessage = 'Ett fel uppstod, försök igen...'
-        if (err.response.data.errorCode === 'EmailAlreadyInUse') {
-          aMessage = 'Epostadressen används redan'
+        if (err.response.data.errorCode === 'EmailAlreadyInUseError') {
+          aMessage = 'E-postadressen används redan'
         }
-        if (err.response.data.errorCode === 'EmailSyntaxInvalid' || err.response.data.errorCode === 'EmailRequired') {
-          aMessage = 'Ange en giltig epostadress'
+        else if (err.response.data.errorCode === 'EmailSyntaxInvalidError' || err.response.data.errorCode === 'EmailRequiredError') {
+          aMessage = 'Ange en giltig e-postadress'
+        }
+        else if (err.response.data.errorCode === 'EmailNotFoundError') {
+          aMessage = 'Epostadressen hittades inte...'
         }
         this.$notify({
           group: 'register-notifications',

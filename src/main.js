@@ -94,7 +94,7 @@ const store = new Vuex.Store({
       var uniqueIcdOperations = _.uniqBy(state.operations, 'icd')
       var icdGroups = _.map(uniqueIcdOperations, function(operation) {
         return {
-          icd: operation.icd,
+          icd: operation.icd.toUpperCase(),
           name: IcdLibrary.nameForIcd(operation.icd),
           count: {
             op: _.filter(state.operations, function(anotherOperation) {return anotherOperation.icd.toLowerCase() === operation.icd.toLowerCase() && anotherOperation.mainOperator === true}).length,
@@ -298,8 +298,7 @@ const router = new Router({
             }
             return next()
           })
-          .catch((err) => {
-            console.log(err)
+          .catch(() => {
             return next()
           })
         } else {

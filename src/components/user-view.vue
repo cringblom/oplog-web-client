@@ -4,15 +4,15 @@
     div.border-box
       div.left-section
         span.username-label Inloggad som:
-        span.username  {{username}}
+        span.username(data-cy='username-span')  {{username}}
         span.loading-user(v-if='loadingUser') laddar...
       div.right-section
-        button.oplog-button.oplog-button-default(@click='logout') Logga ut
+        button.oplog-button.oplog-button-default(@click='logout' data-cy='logout-button') Logga ut
     div.border-box
       div.left-section
         span Ta bort konto
       div.right-section
-        button.oplog-button.oplog-button-red(@click='$store.commit("showRemoveAccountModal")') Ta bort konto...
+        button.oplog-button.oplog-button-red(@click='$store.commit("showRemoveAccountModal")' data-cy='remove-account-button') Ta bort konto...
 </template>
 
 <script>

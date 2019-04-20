@@ -4,11 +4,11 @@
       div.modal-container.modal-container-red
         div.modal-header Ta bort konto
         form.modal-body(@submit.prevent='submit')
-          input.oplog-input.email-input(v-model='email' placeholder='Epost' type='email')
+          input.oplog-input.email-input(v-model='email' placeholder='Epost' type='email' data-cy='remove-account-email-input')
           div.info Ange din epostadress ovan för att bekräfta att du vill ta bort ditt konto. Tänk på att alla dina operationer och personuppgifter kommer att raderas och går inte att återskapa.
           div.modal-buttons
-            button.oplog-button.oplog-button-default(type='button' @click='close') Avbryt
-            button.oplog-button.oplog-button-red(:disabled='disabledSubmitButton') Ta bort konto
+            button.oplog-button.oplog-button-default(type='button' @click='close' data-cy='remove-account-cancel-button') Avbryt
+            button.oplog-button.oplog-button-red(:disabled='disabledSubmitButton' data-cy='remove-account-submit-button') Ta bort konto
 </template>
 
 <script>

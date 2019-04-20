@@ -21,7 +21,8 @@
           placeholder='Sök operation'
           @keyup.down.stop='icdSlectorDownKey'
           @keyup.up.stop='icdSlectorUpKey'
-          @keyup.enter.stop='icdSelectorEnterKey')
+          @keyup.enter.stop='icdSelectorEnterKey'
+          data-cy='operation-input')
         div.icd-selector
           div.icd-selector-content(v-if='filteredIcdCodes.length == 0 && icdInput.length == 0') Sök operation ovan
           div.icd-selector-content(v-else-if='filteredIcdCodes.length == 0') Hittade tyvärr inget :/
@@ -30,7 +31,8 @@
             v-for='(icdCode, index) in filteredIcdCodes'
             :class='{"icd-selector-item-selected": index == icdSelectorSelectedIndex}'
             @click='selectedIcd = icdCode; stepIndex++  '
-            @mouseover='icdSelectorSelectedIndex = index') {{icdCode.icd}} {{icdCode.name}}
+            @mouseover='icdSelectorSelectedIndex = index'
+            data-cy='icd-selector-item') {{icdCode.icd}} {{icdCode.name}}
         div.modal-info Sök och välj en operation ovan.
       //Step 2: Date
       div.modal-content(v-else-if='stepIndex === 1' key='step1')
@@ -44,12 +46,13 @@
             mode='single'
             :attributes='datePickerAttributes'
             :max-date='new Date()'
-            :theme-styles='datePickerStyle')
+            :theme-styles='datePickerStyle'
+            data-cy='date-picker-wrapper')
         div.modal-info Välj datum då operationen utfördes.
       //Step 3: Op/Ass
       div.modal-content(v-else-if='stepIndex === 2' key='step2')
         div.op-ass-selector
-          button.op-ass-button.op-ass-button-green(@click='mainOperator = true; submit()')
+          button.op-ass-button.op-ass-button-green(@click='mainOperator = true; submit()' data-cy='op-button')
             div.op-ass-button-icd {{selectedIcd.icd}}
             div.op-ass-button-date {{formatedDate}}
             div Operatör
