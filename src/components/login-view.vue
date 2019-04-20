@@ -17,7 +17,7 @@ div.oplog-login-container
         button.oplog-button.oplog-button-sm.oplog-button-default.w-100(@click="$router.push('/register')" type='button' data-cy='register-button') Skapa ett konto
   div.oplog-login-footer
     div
-      span © 2018 oplog.se
+      span © 2019 oplog.se
     div
       span.oplog-login-footer-link(@click="$router.push('/forgot')" data-cy='forgot-link') Glömt lösenord?
       span.footer-separator |
