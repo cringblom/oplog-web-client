@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="160px" height="160px" viewBox="0 0 160 160" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>scalpel-icon-white-nobg</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="scalpel-icon-white-nobg" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M71,110.280502 L89.0059517,103.528271 L89.0198462,105.986498 C89.0386392,109.311394 87.3397036,112.410433 84.5265204,114.182801 C81.6707875,115.981976 79.8000349,118.993475 79.4525464,122.350779 L78.0792409,135.619149 C77.8427191,137.904335 76.3220879,139.853836 74.163244,140.639591 L71,141.790918 L71,110.280502 Z M71,27.0029758 C71,21.0009919 74.0009919,18 80.0029758,18 C86.0049597,18 89.0059517,21.0009919 89.0059517,27.0029758 L89.0059517,101.277527 L71,108.029758 L71,27.0029758 Z" id="Combined-Shape" fill="#FFFFFF" transform="translate(80.010000, 79.895459) rotate(20.000000) translate(-80.010000, -79.895459) "></path>
+        <circle id="Oval" stroke="#FFFFFF" stroke-width="4" cx="80" cy="80" r="78"></circle>
+    </g>
+</svg>

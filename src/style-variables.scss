@@ -1,0 +1,26 @@
+//COLOR-------------------------------------------------------------------------
+$oplog-green: rgb(76, 162, 34);
+$oplog-yellow: #e6a23c;
+$oplog-red: rgb(247, 93, 93);
+$oplog-light-gray: rgb(233, 233, 233);
+$oplog-light-light-gray: rgb(242, 242, 242);
+$oplog-gray: rgb(119, 119, 119);
+
+$oplog-border-light: $oplog-light-gray;
+
+$oplog-font-color: rgb(54, 54, 54);
+
+
+
+//BUTTONS-----------------------------------------------------------------------
+$oplog-button-color-default: rgb(65, 65, 65);
+
+//INPUT-------------------------------------------------------------------------
+$oplog-input-text-color: rgb(36, 36, 36);
+
+$oplog-input-border-color: $oplog-light-gray;
+$oplog-input-border-color-hover: mix(black, $oplog-input-border-color, 30%);
+$oplog-input-border-color-focus: mix(black, $oplog-input-border-color, 80%);
+
+//BREAKPOINTS-------------------------------------------------------------------
+$oplog-width-breakpoint: 800px;
