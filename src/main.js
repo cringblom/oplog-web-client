@@ -27,7 +27,6 @@ const store = new Vuex.Store({
     username: '',
     isAuthenticated: false,
     addOperationModalIsVisible: false,
-    removeAccountModalIsVisible: false,
     showLeftSection: false
   },
   mutations: {
@@ -59,16 +58,6 @@ const store = new Vuex.Store({
     hideAddOperationModal: function(state) {
       if (state.addOperationModalIsVisible) {
         state.addOperationModalIsVisible = false
-      }
-    },
-    showRemoveAccountModal: function(state) {
-      if (!state.removeAccountModalIsVisible) {
-        state.removeAccountModalIsVisible = true
-      }
-    },
-    hideRemoveAccountModal: function(state) {
-      if (state.removeAccountModalIsVisible) {
-        state.removeAccountModalIsVisible = false
       }
     },
     setAuthenticationState: function(state, newAuthenticationState) {
