@@ -18,7 +18,7 @@ div.oplog-login-container
         input.oplog-input(v-model='email' disabled type='email' data-cy='verify-email-input')
         input.oplog-input(placeholder='Lösenord' v-model='password' type='password' data-cy='verify-password-input')
         input.oplog-input(placeholder='Upprepa lösenordet' v-model='passwordRepeat' type='password' data-cy='verify-password-repeat-input')
-        button.oplog-button.oplog-button-default(:disabled='isLoading' data-cy='verify-submit-button') {{verifyButtonText}}
+        button.oplog-button.oplog-button-default.w-100(:disabled='isLoading' data-cy='verify-submit-button') {{verifyButtonText}}
     div.oplog-login-right-section(v-if='error')
       div.oplog-login-right-section-content.error {{errorMessage}}
 </template>
