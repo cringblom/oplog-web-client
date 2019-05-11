@@ -5,18 +5,15 @@
       app-header-view
     router-view
     add-operation-modal-view(v-if='$store.state.addOperationModalIsVisible' data-cy='add-operation-modal-view')
-    remove-account-modal-view(v-if='$store.state.removeAccountModalIsVisible' data-cy='remove-account-modal-view')
 </template>
 
 <script>
 import appHeaderView from './app-header-view.vue'
 import addOperationModalView from './add-operation-modal-view-v2.vue'
-import removeAccountModalView from './remove-account-modal-view.vue'
 export default {
   components: {
     appHeaderView,
     addOperationModalView,
-    removeAccountModalView
   },
 }
 </script>
