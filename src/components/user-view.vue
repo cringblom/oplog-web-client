@@ -14,12 +14,12 @@
         div.left-section
           span Ta bort konto
         div.right-section
-          button.oplog-button.oplog-button-red(@click='showRemoveAccountBox=true' v-if='!showRemoveAccountBox' data-cy='remove-account-button') Ta bort konto...
+          button.oplog-button.oplog-button-red(@click='showRemoveAccountBox=true' v-if='!showRemoveAccountBox' data-cy='remove-account-toggle-button') Ta bort konto...
       div.border-box-row
         div.remove-account-box(v-if='showRemoveAccountBox')
           span Ange din epostadress nedan för att bekräfta att du vill ta bort ditt konto. Tänk på att alla dina operationer och personuppgifter kommer att raderas och går inte att återskapa. 
-          input.oplog-input(placeholder='E-post' v-model='email')
-          button.oplog-button.w-100.oplog-button-red(@click='submit()') Ta bort konto
+          input.oplog-input(placeholder='E-post' v-model='email' data-cy='remove-account-email-input')
+          button.oplog-button.w-100.oplog-button-red(@click='submit()' data-cy='remove-account-submit-button') Ta bort konto
 </template>
 
 <script>
